@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ServicesProvider } from "./context/services-context";
+import { UsersProvider } from "./context/users-context";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -40,7 +42,11 @@ export default function RootLayout({
       lang="es"
       className={`${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <ServicesProvider>
+          <UsersProvider>{children}</UsersProvider>
+        </ServicesProvider>
+      </body>
     </html>
   );
 }
