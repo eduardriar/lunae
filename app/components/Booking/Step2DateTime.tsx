@@ -1,24 +1,67 @@
 "use client";
 
 import { Service } from "@/app/generated/prisma/client";
-import { RITUAL_BY_NAME, type RitualName } from "../rituals";
 import { fieldLabelStyle, headlineStyle, subStyle } from "./styles";
-import { useServices } from "@/app/context/services-context";
-
-const DAYS = ["Hoy", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
-const DAY_NUMS = [1, 2, 3, 4, 5, 6, 7];
-const SLOTS = ["10:00", "11:30", "13:00", "14:30", "16:00", "17:30", "19:00", "20:30"];
+import { useCalendarAvailability } from "@/app/hooks/useCalendarAvailability";
+import { useEffect, useMemo } from "react";
+import { getUpcomingWorkDays, WorkDay } from "@/app/utils/workDays";
+import { Therapist } from "../booking-modal";
+import { Loading } from "../Loading/Loading";
 
 type Step2DateTimeProps = {
   ritual: Service;
-  day: string;
-  setDay: (d: string) => void;
+  day: WorkDay | undefined;
+  setDay: (d: WorkDay) => void;
   time: string;
   setTime: (t: string) => void;
+  therapist: Therapist | null
 };
 
-export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateTimeProps) {
-  const blocked = (i: number) => i === 2 || (day === "Mar" && i === 5);
+export function Step2DateTime({ ritual, day, setDay, time, setTime, therapist }: Step2DateTimeProps) {
+  const { availability, loading, fetchCalendarAvailability } = useCalendarAvailability();
+  const days = useMemo(() => getUpcomingWorkDays(5), []);
+
+  useEffect(() => {
+    if (day !== undefined && therapist !== undefined) fetchCalendarAvailability(day, therapist)
+  }, [day]);
+
+  const displayTimeSlot = () => {
+    if (day === undefined) return <></>
+    if (loading) {
+      return <Loading />
+    } else {
+      return (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+          {availability && availability.map((t, i) => {
+            const isBlocked = t.blocked;
+            const sel = time === t.displayTime && !isBlocked;
+            return (
+              <button
+                type="button"
+                key={t.displayTime}
+                onClick={() => !isBlocked && setTime(t.displayTime)}
+                style={{
+                  padding: 14,
+                  textAlign: "center",
+                  border: `1px solid ${sel ? "var(--negro)" : "var(--line)"}`,
+                  background: sel ? "var(--negro)" : isBlocked ? "transparent" : "#fff",
+                  color: sel ? "var(--blanco)" : isBlocked ? "#bfb39a" : "var(--negro)",
+                  textDecoration: isBlocked ? "line-through" : "none",
+                  borderRadius: 4,
+                  cursor: isBlocked ? "not-allowed" : "pointer",
+                  fontFamily: "var(--ff-body)",
+                  fontSize: 13,
+                  transition: "all 0.15s ease",
+                }}
+              >
+                {t.displayTime}
+              </button>
+            );
+          })}
+        </div>
+      )
+    }
+  }
 
   return (
     <div>
@@ -32,12 +75,12 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
       <div style={{ marginBottom: 24 }}>
         <div style={fieldLabelStyle}>Día</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6 }}>
-          {DAYS.map((d, i) => {
-            const sel = day === d;
+          {days.map((d, i) => {
+            const sel = !!day && day.iso === d.iso;
             return (
               <button
                 type="button"
-                key={d}
+                key={d.iso}
                 onClick={() => setDay(d)}
                 style={{
                   padding: "14px 4px",
@@ -61,9 +104,17 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
                     marginBottom: 2,
                   }}
                 >
-                  May
+                  {d.month}
                 </div>
-                {d} {DAY_NUMS[i]}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <span>{d.date.getDate()}</span>
+                  <span>{d.isToday ? 'Hoy' : d.weekday}</span>
+                </div>
               </button>
             );
           })}
@@ -71,36 +122,9 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
       </div>
 
       <div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         <div style={fieldLabelStyle}>Hora</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-          {SLOTS.map((t, i) => {
-            const isBlocked = blocked(i);
-            const sel = time === t && !isBlocked;
-            return (
-              <button
-                type="button"
-                key={t}
-                onClick={() => !isBlocked && setTime(t)}
-                disabled={isBlocked}
-                style={{
-                  padding: 14,
-                  textAlign: "center",
-                  border: `1px solid ${sel ? "var(--negro)" : "var(--line)"}`,
-                  background: sel ? "var(--negro)" : isBlocked ? "transparent" : "#fff",
-                  color: sel ? "var(--blanco)" : isBlocked ? "#bfb39a" : "var(--negro)",
-                  textDecoration: isBlocked ? "line-through" : "none",
-                  borderRadius: 4,
-                  cursor: isBlocked ? "not-allowed" : "pointer",
-                  fontFamily: "var(--ff-body)",
-                  fontSize: 13,
-                  transition: "all 0.15s ease",
-                }}
-              >
-                {t}
-              </button>
-            );
-          })}
-        </div>
+        {displayTimeSlot()}
         <div
           style={{
             marginTop: 12,

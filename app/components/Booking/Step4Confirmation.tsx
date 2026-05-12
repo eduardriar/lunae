@@ -3,13 +3,14 @@
 import { Service, User, UserType } from "@/app/generated/prisma/client";
 import { formatCurrency } from "@/app/utils/currency";
 import { headlineStyle, subStyle } from "./styles";
+import { WorkDay } from "@/app/utils/workDays";
 
 type Therapist = User & { userType: UserType };
 
 type Step4ConfirmationProps = {
   ritual: Service;
   therapist: Therapist | null;
-  day: string;
+  day: WorkDay | undefined;
   time: string;
   name: string;
   reservationId: string;
@@ -25,7 +26,7 @@ export function Step4Confirmation({
 }: Step4ConfirmationProps) {
   const rows = [
     ["Ritual", `${ritual.name} · ${ritual.duration} minutos`],
-    ["Fecha & hora", `${day} May · ${time}`],
+    ["Fecha & hora", `${!!day && day.iso} May · ${time}`],
     ["Terapeuta", therapist ? therapist.name : "—"],
     ["Lugar", "Cra. 11 #93–43, Bogotá"],
     ["Total", formatCurrency(ritual.price)],

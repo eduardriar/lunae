@@ -8,8 +8,11 @@ import { Step3Contact, type Step3Errors } from "./Booking/Step3Contact";
 import { Step4Confirmation } from "./Booking/Step4Confirmation";
 import { Service, User, UserType } from "../generated/prisma/client";
 import { useServices } from "../context/services-context";
+import { WorkDay } from "../utils/workDays";
+import { buildSlotRange } from "../utils/buildSlotRange";
+import { useCreateCalendarEvent } from "../hooks/useCreateCalendarEvent";
 
-type Therapist = User & { userType: UserType };
+export type Therapist = User & { userType: UserType };
 
 type BookingModalProps = {
   open: boolean;
@@ -25,13 +28,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const [step, setStep] = useState(1);
   const [ritual, setRitual] = useState<Service>(initialRitual ?? services[0]);
   const [therapist, setTherapist] = useState<Therapist | null>(null);
-  const [day, setDay] = useState("Mié");
-  const [time, setTime] = useState("16:00");
+  const [day, setDay] = useState<WorkDay>();
+  const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
   const [errors, setErrors] = useState<Step3Errors>({});
+  const { createEvent, loading, error } = useCreateCalendarEvent()
   const reservationId = useMemo(
     () => `LN-${Math.floor(4000 + Math.random() * 1000)}`,
     [step === TOTAL_STEPS] // eslint-disable-line react-hooks/exhaustive-deps
@@ -70,7 +74,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     return Object.keys(e).length === 0;
   };
 
+  const canContinue = () => {
+    if (step === 1) return !!ritual;
+    if (step === 2) return !!therapist;
+    return true;
+  };
+
   const next = () => {
+    if (!canContinue()) return;
     if (step === 4 && !validateContact()) return;
     setStep((s) => Math.min(TOTAL_STEPS, s + 1));
   };
@@ -83,6 +94,28 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     setErrors({});
     onClose();
   };
+
+  const createCalendarEvent = () => {
+
+    if (!!day && !!time) {
+      const slotRange = buildSlotRange(day, time);
+
+      createEvent({
+        summary: `${name} - ${ritual.name}`,
+        start: slotRange?.start,
+        end: slotRange?.end,
+        description: `
+        Servicio: ${ritual.name}
+        Cliente: ${name}
+        Terapeuta: ${therapist?.name}
+        Precio: ${ritual.price}
+        `
+      }, () => {
+        onConfirm?.(ritual);
+        reset();
+      })
+    }
+  }
 
   return (
     <div
@@ -182,6 +215,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 setDay={setDay}
                 time={time}
                 setTime={setTime}
+                therapist={therapist}
               />
             )}
             {step === 4 && (
@@ -237,8 +271,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
             <button
               type="button"
               onClick={next}
+              disabled={!canContinue()}
               className="btn btn-primary"
-              style={{ fontSize: 13, padding: "14px 28px" }}
+              style={{
+                fontSize: 13,
+                padding: "14px 28px",
+                opacity: canContinue() ? 1 : 0.45,
+                cursor: canContinue() ? "pointer" : "not-allowed",
+              }}
             >
               Continuar →
             </button>
@@ -246,8 +286,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
             <button
               type="button"
               onClick={() => {
-                onConfirm?.(ritual);
-                reset();
+                createCalendarEvent()
               }}
               className="btn btn-primary"
               style={{ fontSize: 13, padding: "14px 28px" }}
