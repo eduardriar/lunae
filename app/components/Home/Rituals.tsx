@@ -52,7 +52,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                         key={r.name}
                         type="button"
                         className="lift"
-                        onClick={() => open(r.name)}
+                        onClick={() => open(r)}
                         style={{
                             display: "flex",
                             flexDirection: "column",
@@ -63,7 +63,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             textAlign: "left",
                         }}
                     >
-                        <Placeholder tone={r.tone} style={{ height: 320 }} label={r.name.toLowerCase()} />
+                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} />
                         <div style={{ paddingTop: 18 }}>
                             <h3
                                 style={{
