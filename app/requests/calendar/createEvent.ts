@@ -1,11 +1,9 @@
-import { useState } from 'react';
-
 export type CreateEventInput = {
   summary: string;
-  description?: string;
+  description: string;
   location?: string;
-  start?: string;
-  end?: string;
+  start: string;
+  end: string;
   timeZone?: string;
   attendees?: { email: string; displayName?: string }[];
 };
@@ -20,17 +18,10 @@ export type CreatedEvent = {
 
 export type CreateEventCallback = (event: CreatedEvent) => void | Promise<void>;
 
-export const useCreateCalendarEvent = () => {
-  const [event, setEvent] = useState<CreatedEvent | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const createEvent = async (
+export const createEvent = async (
     input: CreateEventInput,
     onSuccess?: CreateEventCallback
-  ): Promise<CreatedEvent | null> => {
-    setLoading(true);
-    setError(null);
+  ): Promise<CreatedEvent | null | string> => {
     try {
       const res = await fetch('/api/calendar/create-event', {
         method: 'POST',
@@ -44,22 +35,10 @@ export const useCreateCalendarEvent = () => {
       }
 
       const created = data.event as CreatedEvent;
-      setEvent(created);
       await onSuccess?.(created);
       return created;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
-      setError(message);
-      return null;
-    } finally {
-      setLoading(false);
+      return message;
     }
   };
-
-  const reset = () => {
-    setEvent(null);
-    setError(null);
-  };
-
-  return { createEvent, event, loading, error, reset };
-};

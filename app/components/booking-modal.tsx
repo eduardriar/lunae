@@ -9,8 +9,7 @@ import { Step4Confirmation } from "./Booking/Step4Confirmation";
 import { Service, User, UserType } from "../generated/prisma/client";
 import { useServices } from "../context/services-context";
 import { WorkDay } from "../utils/workDays";
-import { buildSlotRange } from "../utils/buildSlotRange";
-import { useCreateCalendarEvent } from "../hooks/useCreateCalendarEvent";
+import { useCreateReservation } from "../hooks/useCreateReservation";
 
 export type Therapist = User & { userType: UserType };
 
@@ -35,7 +34,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
   const [errors, setErrors] = useState<Step3Errors>({});
-  const { createEvent, loading, error } = useCreateCalendarEvent()
+  const { createReservation, loading: loadingReservation, error: loadingError, reservation } = useCreateReservation();
   const reservationId = useMemo(
     () => `LN-${Math.floor(4000 + Math.random() * 1000)}`,
     [step === TOTAL_STEPS] // eslint-disable-line react-hooks/exhaustive-deps
@@ -95,24 +94,20 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     onClose();
   };
 
-  const createCalendarEvent = () => {
+  const createCalendarEvent = async () => {
 
     if (!!day && !!time) {
-      const slotRange = buildSlotRange(day, time);
-
-      createEvent({
-        summary: `${name} - ${ritual.name}`,
-        start: slotRange?.start,
-        end: slotRange?.end,
-        description: `
-        Servicio: ${ritual.name}
-        Cliente: ${name}
-        Terapeuta: ${therapist?.name}
-        Precio: ${ritual.price}
-        `
+      createReservation({
+        name: name,
+        email: email,
+        phone: phone,
+        service: ritual,
+        date: day,
+        hour: time,
+        duration: 1
       }, () => {
-        onConfirm?.(ritual);
-        reset();
+          onConfirm?.(ritual);
+          reset();
       })
     }
   }
