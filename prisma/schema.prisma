@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Reservation {
+  id                    String           @id @default(cuid())
+  name                  String
+  email                 String?
+  phone                 String
+  serviceId             String           @map("service_id")
+  duration              Int
+  date                  DateTime         @db.Date
+  hour                  String
+  price                 Int
+  notes                 String?
+  state                 ReservationState @default(pending)
+  whatsappMessageId     String?          @map("whatsapp_message_id")
+  googleCalendarEventId String?          @map("google_calendar_event_id")
+  createdAt             DateTime         @default(now()) @map("created_at")
+  updatedAt             DateTime         @updatedAt @map("updated_at")
+  therapistId           Int?             @map("therapist_id")
+  service               Service          @relation(fields: [serviceId], references: [id])
+  therapist             User?            @relation(fields: [therapistId], references: [id])
+
+  @@map("reservations")
+}
+
+model Service {
+  id              String        @id @default(cuid())
+  name            String
+  duration        Int
+  price           Int
+  additionalPrice Int           @map("additional_price")
+  description     String[]
+  state           Boolean       @default(true)
+  reservations    Reservation[]
+
+  @@map("services")
+}
+
+model UserType {
+  id          Int       @id @default(autoincrement())
+  name        UserTypes @unique
+  description String?   @db.VarChar(255)
+  permissions Json?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  users       User[]
+
+  @@map("user_types")
+}
+
+model User {
+  id                Int           @id @default(autoincrement())
+  name              String        @db.VarChar(100)
+  email             String        @unique @db.VarChar(100)
+  phone             String?       @db.VarChar(20)
+  userTypeId        Int           @map("user_type_id")
+  state             UserState     @default(active)
+  specialties       String?       @db.VarChar(255)
+  availableSchedule Json?         @map("available_schedule")
+  biography         String?
+  profilePhoto      String?       @map("profile_photo") @db.VarChar(255)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+  reservations      Reservation[]
+  userType          UserType      @relation(fields: [userTypeId], references: [id])
+
+  @@map("users")
+}
+
+enum ReservationState {
+  pending
+  confirmed
+  cancelled
+  completed
+}
+
+enum UserState {
+  active
+  inactive
+  on_leave
+}
+
+enum UserTypes {
+  therapist
+  admin
+  recepcionist
+}

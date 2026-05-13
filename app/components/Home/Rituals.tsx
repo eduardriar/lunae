@@ -1,12 +1,16 @@
+import { Service } from "@/app/generated/prisma/client";
 import { Eyebrow } from "../eyebrow"
 import { Placeholder } from "../placeholder"
 import { RitualName, RITUALS } from "../rituals"
+import { useServices } from "@/app/context/services-context";
+import { formatCurrency } from "@/app/utils/currency";
 
 type RitualsProps = {
-    open: (ritual?: RitualName | undefined) => void;
+    open: (ritual?: Service | undefined) => void;
 }
 
-export const Rituals = ({open}: RitualsProps) => {
+export const Rituals = ({ open }: RitualsProps) => {
+    const { services } = useServices();
 
     return (
         <section data-section="rituales" style={{ padding: "90px 64px" }}>
@@ -43,7 +47,7 @@ export const Rituals = ({open}: RitualsProps) => {
                 </button>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
-                {RITUALS.map((r) => (
+                {services.map((r) => (
                     <button
                         key={r.name}
                         type="button"
@@ -81,7 +85,7 @@ export const Rituals = ({open}: RitualsProps) => {
                                     textTransform: "uppercase",
                                 }}
                             >
-                                {r.duration} · {r.price}
+                                {r.duration} · {formatCurrency(r.price)}
                             </div>
                         </div>
                     </button>
