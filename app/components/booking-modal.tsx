@@ -26,7 +26,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const { services } = useServices();
   const [step, setStep] = useState(1);
   const [ritual, setRitual] = useState<Service>(initialRitual ?? services[0]);
-  const [therapist, setTherapist] = useState<Therapist | null>(null);
   const [day, setDay] = useState<WorkDay>();
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
@@ -75,7 +74,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
 
   const canContinue = () => {
     if (step === 1) return !!ritual;
-    if (step === 2) return !!therapist;
     return true;
   };
 
@@ -210,7 +208,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 setDay={setDay}
                 time={time}
                 setTime={setTime}
-                therapist={therapist}
               />
             )}
             {step === 3 && (
@@ -229,7 +226,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
             {step === 4 && (
               <Step4Confirmation
                 ritual={ritual}
-                therapist={therapist}
                 day={day}
                 time={time}
                 name={name}

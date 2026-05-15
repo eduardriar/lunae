@@ -14,10 +14,9 @@ type Step2DateTimeProps = {
   setDay: (d: WorkDay) => void;
   time: string;
   setTime: (t: string) => void;
-  therapist: Therapist | null
 };
 
-export function Step2DateTime({ ritual, day, setDay, time, setTime, therapist }: Step2DateTimeProps) {
+export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateTimeProps) {
   const { availability, loading, fetchCalendarAvailability } = useCalendarAvailability();
   const days = useMemo(() => getUpcomingWorkDays(5), []);
 

@@ -9,7 +9,6 @@ type Therapist = User & { userType: UserType };
 
 type Step4ConfirmationProps = {
   ritual: Service;
-  therapist: Therapist | null;
   day: WorkDay | undefined;
   time: string;
   name: string;
@@ -18,7 +17,6 @@ type Step4ConfirmationProps = {
 
 export function Step4Confirmation({
   ritual,
-  therapist,
   day,
   time,
   name,
@@ -27,7 +25,6 @@ export function Step4Confirmation({
   const rows = [
     ["Ritual", `${ritual.name} · ${ritual.duration} minutos`],
     ["Fecha & hora", `${!!day && day.iso} May · ${time}`],
-    ["Terapeuta", therapist ? therapist.name : "—"],
     ["Lugar", "Cra. 11 #93–43, Bogotá"],
     ["Total", formatCurrency(ritual.price)],
   ] as const;

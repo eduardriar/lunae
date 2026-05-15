@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Validar datos (aquí iría tu validación con Zod)
-    const { name, email, phone, date, hour, notes, duration, service, therapist } = body;
+    const { name, email, phone, date, hour, notes, duration, service } = body;
 
     // 1. Save data
     const createdReservation = await prisma.reservation.create({
@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
             duration,
             price: service.price,
             serviceId: service.id,
-            ...(therapist?.id ? { therapistId: therapist.id } : {}),
         }
     });
 
@@ -40,7 +39,6 @@ export async function POST(request: NextRequest) {
         description: `
           Servicio: ${service.name}
           Cliente: ${name}
-          Terapeuta: ${therapist?.name}
           Precio: ${service.price}
         `,
       });
