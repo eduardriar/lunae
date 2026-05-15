@@ -14,12 +14,12 @@ export const useCalendarAvailability = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchCalendarAvailability = async (date: WorkDay | undefined, therapist: Therapist | null) => {
-        if (!date && !therapist) return;
+    const fetchCalendarAvailability = async (date: WorkDay | undefined) => {
+        if (!date) return;
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch(`/api/calendar/available-slots?date=${date?.iso}&therapist=${therapist?.name}`);
+            const res = await fetch(`/api/calendar/available-slots?date=${date?.iso}`);
             if (!res.ok) throw new Error(`Request failed: ${res.status}`);
             const data = await res.json();
             setAvailability(data.availableSlots);

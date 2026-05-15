@@ -30,7 +30,6 @@ export class CalendarEventError extends Error {
 export const createCalendarEvent = async (
   input: CreateCalendarEventInput
 ): Promise<CreatedCalendarEvent> => {
-  console.log(input)
   const {
     summary,
     description,

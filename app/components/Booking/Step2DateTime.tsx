@@ -22,7 +22,7 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime, therapist }:
   const days = useMemo(() => getUpcomingWorkDays(5), []);
 
   useEffect(() => {
-    if (day !== undefined && therapist !== undefined) fetchCalendarAvailability(day, therapist)
+    if (day !== undefined) fetchCalendarAvailability(day)
   }, [day]);
 
   const displayTimeSlot = () => {

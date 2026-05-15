@@ -200,10 +200,10 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
         <div style={{ flex: 1, padding: "40px 36px", overflow: "auto" }} key={step}>
           <div style={{ animation: "fadeUp 0.35s ease" }}>
             {step === 1 && <Step1Ritual ritual={ritual} setRitual={setRitual} />}
-            {step === 2 && (
+            {/* {step === 2 && (
               <Step2Therapist therapist={therapist} setTherapist={setTherapist} />
-            )}
-            {step === 3 && (
+            )} */}
+            {step === 2 && (
               <Step2DateTime
                 ritual={ritual}
                 day={day}
@@ -213,7 +213,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 therapist={therapist}
               />
             )}
-            {step === 4 && (
+            {step === 3 && (
               <Step3Contact
                 name={name}
                 setName={setName}
@@ -226,7 +226,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 errors={errors}
               />
             )}
-            {step === 5 && (
+            {step === 4 && (
               <Step4Confirmation
                 ritual={ritual}
                 therapist={therapist}

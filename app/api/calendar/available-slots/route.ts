@@ -12,18 +12,9 @@ const SLOT_DURATION = 60; // minutos
 const SLOT_CAPACITY = 4;
 const TZ_OFFSET = '-05:00';
 
-const matchesTherapist = (
-  description: string | null | undefined,
-  therapist: string | null
-) => {
-  if (!therapist || !description) return false;
-  return description.toLowerCase().includes(therapist.toLowerCase());
-};
-
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url); // Ej: "2024-05-15"
-    const therapist = searchParams.get('therapist')
     const date = searchParams.get('date')
 
     if (!date) {
@@ -35,6 +26,8 @@ export async function GET(req: Request) {
     // Obtener eventos del día
     const timeMin = new Date(`${date}T00:00:00${TZ_OFFSET}`);
     const timeMax = new Date(`${date}T23:59:59.999${TZ_OFFSET}`);
+
+    console.log('Calendar ID being used:', process.env.GOOGLE_CALENDAR_ID || 'primary');
 
     const eventsResponse = await calendar.events.list({
       calendarId: process.env.GOOGLE_CALENDAR_ID || 'primary',
@@ -59,7 +52,6 @@ export async function GET(req: Request) {
     const busySlots = (events || []).map(event => ({
       start: new Date(event.start?.dateTime!),
       end: new Date(event.end?.dateTime!),
-      description: event.description
     }));
 
     const availableSlots = [];
@@ -77,11 +69,8 @@ export async function GET(req: Request) {
         );
 
         const isFull = overlapping.length >= SLOT_CAPACITY;
-        const therapistBooked = therapist
-          ? overlapping.some(busy => matchesTherapist(busy.description, therapist))
-          : false;
         const isPast = slotStart <= now;
-        const isBooked = isFull || therapistBooked || isPast;
+        const isBooked = isFull || isPast;
 
         availableSlots.push({
           start: slotStart.toISOString(),

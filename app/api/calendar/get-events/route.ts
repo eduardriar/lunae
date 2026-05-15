@@ -33,6 +33,8 @@ export async function GET(req: NextRequest) {
 
     const calendar = getCalendarClient();
 
+    console.log('Calendar ID being used:', process.env.GOOGLE_CALENDAR_ID || 'primary');
+
     const response = await calendar.events.list({
       calendarId: process.env.GOOGLE_CALENDAR_ID || 'primary',
       timeMin: timeMin.toISOString(),
