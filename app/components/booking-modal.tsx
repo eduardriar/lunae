@@ -20,7 +20,7 @@ type BookingModalProps = {
   onConfirm?: (ritual: Service) => void;
 };
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 4;
 
 export function BookingModal({ open, initialRitual, onClose, onConfirm }: BookingModalProps) {
   const { services } = useServices();
