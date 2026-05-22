@@ -75,6 +75,41 @@ model User {
   @@map("users")
 }
 
+model WhatsappConversation {
+  id            String                    @id @default(cuid())
+  contactPhone  String                    @unique @map("contact_phone")
+  contactName   String?                   @map("contact_name")
+  lastMessageAt DateTime                  @default(now()) @map("last_message_at")
+  createdAt     DateTime                  @default(now()) @map("created_at")
+  updatedAt     DateTime                  @updatedAt @map("updated_at")
+  context       Json?
+  state         WhatsappConversationState @default(idle)
+  messages      WhatsappMessage[]
+
+  @@map("whatsapp_conversations")
+}
+
+model WhatsappMessage {
+  id             String                @id @default(cuid())
+  waMessageId    String?               @unique @map("wa_message_id")
+  conversationId String                @map("conversation_id")
+  direction      WhatsappDirection
+  fromPhone      String                @map("from_phone")
+  toPhone        String                @map("to_phone")
+  type           String
+  content        Json
+  status         WhatsappMessageStatus @default(pending)
+  errorMessage   String?               @map("error_message")
+  reservationId  String?               @map("reservation_id")
+  createdAt      DateTime              @default(now()) @map("created_at")
+  conversation   WhatsappConversation  @relation(fields: [conversationId], references: [id])
+  reservation    Reservation?          @relation(fields: [reservationId], references: [id])
+
+  @@index([fromPhone])
+  @@index([toPhone])
+  @@map("whatsapp_messages")
+}
+
 enum ReservationState {
   pending
   confirmed
@@ -94,40 +129,6 @@ enum UserTypes {
   recepcionist
 }
 
-model WhatsappConversation {
-  id            String            @id @default(cuid())
-  contactPhone  String            @unique @map("contact_phone")
-  contactName   String?           @map("contact_name")
-  lastMessageAt DateTime          @default(now()) @map("last_message_at")
-  createdAt     DateTime          @default(now()) @map("created_at")
-  updatedAt     DateTime          @updatedAt @map("updated_at")
-  messages      WhatsappMessage[]
-
-  @@map("whatsapp_conversations")
-}
-
-model WhatsappMessage {
-  id             String                @id @default(cuid())
-  waMessageId    String?               @unique @map("wa_message_id")
-  conversationId String                @map("conversation_id")
-  direction      WhatsappDirection
-  fromPhone      String                @map("from_phone")
-  toPhone        String                @map("to_phone")
-  type           String
-  content        Json
-  status         WhatsappMessageStatus @default(pending)
-  errorMessage   String?               @map("error_message")
-  reservationId  String?               @map("reservation_id")
-  createdAt      DateTime              @default(now()) @map("created_at")
-
-  conversation   WhatsappConversation  @relation(fields: [conversationId], references: [id])
-  reservation    Reservation?          @relation(fields: [reservationId], references: [id])
-
-  @@index([fromPhone])
-  @@index([toPhone])
-  @@map("whatsapp_messages")
-}
-
 enum WhatsappDirection {
   inbound
   outbound
@@ -139,4 +140,16 @@ enum WhatsappMessageStatus {
   delivered
   read
   failed
+}
+
+enum WhatsappConversationState {
+  idle
+  awaiting_service
+  awaiting_date
+  awaiting_slot
+  awaiting_confirmation
+  awaiting_name
+  confirmed
+  awaiting_menu
+  human_handover
 }

@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { Strip } from "./strip";
 import { BookingModal } from "./booking-modal";
 import { useToast } from "./toast";
-import { type RitualName } from "./rituals";
 import { Hero } from "./Home/HeroSplit";
 import { HERO_OPTIONS, HERO_SLOTS } from "../utils/texts";
 import { Rituals } from "./Home/Rituals";
 import { ProductInfo } from "./Home/ProductInfo";
 import { Location } from "./Home/Location";
-import { useServices } from "../context/services-context";
 import { Service } from "../generated/prisma/client";
 
 export function Home() {

@@ -79,6 +79,79 @@ export const sendTemplateMessage = (
     },
   });
 
+export type ListRow = {
+  id: string;
+  title: string;
+  description?: string;
+};
+
+export type ListSection = {
+  title: string;
+  rows: ListRow[];
+};
+
+export const sendInteractiveListMessage = (
+  to: string,
+  bodyText: string,
+  buttonLabel: string,
+  sections: ListSection[],
+  headerText?: string
+) =>
+  postMessage({
+    messaging_product: 'whatsapp',
+    to,
+    type: 'interactive',
+    interactive: {
+      type: 'list',
+      ...(headerText
+        ? { header: { type: 'text', text: headerText.slice(0, 60) } }
+        : {}),
+      body: { text: bodyText.slice(0, 1024) },
+      action: {
+        button: buttonLabel.slice(0, 20),
+        sections: sections.map((section) => ({
+          title: section.title.slice(0, 24),
+          rows: section.rows.slice(0, 10).map((row) => ({
+            id: row.id.slice(0, 200),
+            title: row.title.slice(0, 24),
+            ...(row.description
+              ? { description: row.description.slice(0, 72) }
+              : {}),
+          })),
+        })),
+      },
+    },
+  });
+
+export type ReplyButton = {
+  id: string;
+  title: string;
+};
+
+export const sendInteractiveButtonMessage = (
+  to: string,
+  bodyText: string,
+  buttons: ReplyButton[]
+) =>
+  postMessage({
+    messaging_product: 'whatsapp',
+    to,
+    type: 'interactive',
+    interactive: {
+      type: 'button',
+      body: { text: bodyText.slice(0, 1024) },
+      action: {
+        buttons: buttons.slice(0, 3).map((b) => ({
+          type: 'reply',
+          reply: {
+            id: b.id.slice(0, 256),
+            title: b.title.slice(0, 20),
+          },
+        })),
+      },
+    },
+  });
+
 export const verifyWebhookSignature = (
   rawBody: string,
   signature: string | null

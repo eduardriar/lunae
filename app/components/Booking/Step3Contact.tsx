@@ -1,6 +1,7 @@
 "use client";
 
 import { fieldLabelStyle, headlineStyle, subStyle } from "./styles";
+import { PhoneField } from "@/app/components/shared/PhoneField";
 
 const PREFS = ["Aromaterapia suave", "Música instrumental", "Sin conversación", "Té después"];
 
@@ -44,13 +45,12 @@ export function Step3Contact({
           placeholder="Como prefieras que te llamemos"
           error={errors.name}
         />
-        <Field
+        <PhoneField
           label="WhatsApp"
           value={phone}
           onChange={setPhone}
-          placeholder="+57 ..."
+          placeholder="300 000 0000"
           error={errors.phone}
-          maxLength={10}
         />
         <Field
           label="Email · opcional"

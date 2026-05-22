@@ -1,15 +1,9 @@
 import prisma from '@/app/lib/prisma';
 import { verifyWebhookSignature } from '@/app/lib/whatsapp';
+import { handleInboundMessage, InboundMessage } from '@/app/lib/whatsappBot';
 import { NextRequest, NextResponse } from 'next/server';
 
-type IncomingMessage = {
-  from: string;
-  id: string;
-  timestamp: string;
-  type: string;
-  text?: { body: string };
-  [key: string]: unknown;
-};
+type IncomingMessage = InboundMessage & { timestamp?: string };
 
 type StatusUpdate = {
   id: string;
@@ -76,8 +70,6 @@ export async function POST(req: NextRequest) {
           '';
         const contactName = value.contacts?.[0]?.profile?.name;
 
-        console.log('>>> Messages', value.messages)
-
         for (const message of value.messages || []) {
           const conversation = await prisma.whatsappConversation.upsert({
             where: { contactPhone: message.from },
@@ -92,18 +84,31 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          await prisma.whatsappMessage.create({
-            data: {
-              waMessageId: message.id,
-              conversationId: conversation.id,
-              direction: 'inbound',
-              fromPhone: message.from,
-              toPhone: businessPhone,
-              type: message.type,
-              content: message as object,
-              status: 'delivered',
-            },
-          });
+          try {
+            await prisma.whatsappMessage.create({
+              data: {
+                waMessageId: message.id,
+                conversationId: conversation.id,
+                direction: 'inbound',
+                fromPhone: message.from,
+                toPhone: businessPhone,
+                type: message.type,
+                content: message as object,
+                status: 'delivered',
+              },
+            });
+          } catch (err) {
+            // Likely a unique-constraint hit on waMessageId from a Meta retry.
+            // Skip the bot dispatch so we don't reply twice.
+            console.warn('WhatsApp inbound already stored, skipping:', message.id);
+            continue;
+          }
+
+          try {
+            await handleInboundMessage(conversation, message);
+          } catch (err) {
+            console.error('WhatsApp bot dispatch failed:', err);
+          }
         }
 
         for (const status of value.statuses || []) {

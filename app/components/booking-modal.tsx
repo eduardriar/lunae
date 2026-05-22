@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Step1Ritual } from "./Booking/Step1Ritual";
-import { Step2Therapist } from "./Booking/Step2Therapist";
 import { Step2DateTime } from "./Booking/Step2DateTime";
 import { Step3Contact, type Step3Errors } from "./Booking/Step3Contact";
 import { Step4Confirmation } from "./Booking/Step4Confirmation";

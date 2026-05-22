@@ -3,14 +3,18 @@ import prisma from '@/app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { createCalendarEvent, CalendarEventError } from '@/app/lib/calendarEvents';
 import { buildSlotRange } from '@/app/utils/buildSlotRange';
+import { sendTemplateMessage } from '@/app/lib/whatsapp';
 
 
 export async function POST(request: NextRequest) {
+  const CONFIRMATION_TEMPLATE = "lunae_reservations"
   try {
     const body = await request.json();
     
     // Validar datos (aquí iría tu validación con Zod)
     const { name, email, phone, date, hour, notes, duration, service } = body;
+
+    console.log(phone)
 
     // 1. Save data
     const createdReservation = await prisma.reservation.create({
@@ -59,6 +63,11 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Enviar mensaje por WhatsApp
+    try {
+      // const waResponse = await sendTemplateMessage(phone, CONFIRMATION_TEMPLATE, )
+    } catch (error) {
+      
+    }
     // try {
     //   const mensajeId = await enviarWhatsApp({
     //     numero: telefono,
