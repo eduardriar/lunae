@@ -1,7 +1,6 @@
 import { Service } from "@/app/generated/prisma/client";
 import { Eyebrow } from "../eyebrow"
 import { Placeholder } from "../placeholder"
-import { RitualName, RITUALS } from "../rituals"
 import { useServices } from "@/app/context/services-context";
 import { formatCurrency } from "@/app/utils/currency";
 
@@ -46,7 +45,17 @@ export const Rituals = ({ open }: RitualsProps) => {
                     Agendar →
                 </button>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+            <div
+                style={{
+                    display: "flex",
+                    gap: 20,
+                    overflowX: "auto",
+                    overflowY: "hidden",
+                    scrollSnapType: "x mandatory",
+                    paddingBottom: 8,
+                    WebkitOverflowScrolling: "touch",
+                }}
+            >
                 {services.map((r) => (
                     <button
                         key={r.name}
@@ -54,6 +63,8 @@ export const Rituals = ({ open }: RitualsProps) => {
                         className="lift"
                         onClick={() => open(r)}
                         style={{
+                            flex: "0 0 320px",
+                            scrollSnapAlign: "start",
                             display: "flex",
                             flexDirection: "column",
                             cursor: "pointer",
@@ -63,7 +74,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             textAlign: "left",
                         }}
                     >
-                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} />
+                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl}/>
                         <div style={{ paddingTop: 18 }}>
                             <h3
                                 style={{

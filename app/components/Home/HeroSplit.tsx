@@ -1,14 +1,13 @@
 import { stepBadgeStyle } from "@/app/utils/stepBadgeStyle";
 import { Eyebrow } from "../eyebrow";
-import { RitualName } from "../rituals";
 import { Placeholder } from "../placeholder";
 import { HERO_OPTIONS, HERO_SLOTS } from "@/app/utils/texts";
 import { Dispatch, SetStateAction } from "react";
 
 type HeroSplitProps = {
-    ritualSel: { name: RitualName; label: string },
+    ritualSel: { name: string; label: string },
     setRitualSel: Dispatch<SetStateAction<{
-        name: RitualName;
+        name: string;
         label: string;
     }>>;
     slotSel: string,
@@ -63,7 +62,7 @@ export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplit
                             maxWidth: 480,
                         }}
                     >
-                        Elige tu ritual y horario. Confirmamos por WhatsApp con tu terapeuta. Sin formularios largos, sin teléfono.
+                        Elige tu ritual y horario. Confirmamos por WhatsApp. Sin formularios largos.
                     </p>
                 </div>
 
@@ -196,7 +195,7 @@ export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplit
 
             <Placeholder
                 tone="dark"
-                label="foto editorial — manos, vela, piedras volcánicas"
+                imageUrl={'https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779486468/13_mrxetx.png'}
                 style={{ minHeight: 720, position: "relative" }}
             >
                 <div
@@ -232,23 +231,12 @@ export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplit
                             fontSize: 32,
                             lineHeight: 1.25,
                             margin: 0,
-                            maxWidth: 420,
+                            maxWidth: 720,
+                            color: "var(--negro-pure)"
                         }}
                     >
                         &ldquo;Una hora aquí cambia toda la semana.&rdquo;
                     </p>
-                    <div
-                        style={{
-                            fontFamily: "var(--ff-mono)",
-                            fontSize: 10,
-                            letterSpacing: "0.2em",
-                            textTransform: "uppercase",
-                            opacity: 0.7,
-                            marginTop: 14,
-                        }}
-                    >
-                        — huésped frecuente
-                    </div>
                 </div>
             </Placeholder>
         </section>

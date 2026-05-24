@@ -38,6 +38,7 @@ model Service {
   additionalPrice Int           @map("additional_price")
   description     String[]
   state           Boolean       @default(true)
+  imageUrl        String?       @map("image_url")
   reservations    Reservation[]
 
   @@map("services")

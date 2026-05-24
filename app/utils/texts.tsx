@@ -8,11 +8,11 @@ export const HERO_OPTIONS: Array<{ name: RitualName; label: string }> = [
     { name: "Armonía en Pareja", label: "Armonía en Pareja · 90 min · $680.000" },
 ];
 
-export const THERAPISTS: Array<{ name: string; role: string; tone: "cafe" | "sage" | "deep" | "crema" }> = [
-  { name: "María José", role: "Lead · Alquimia", tone: "cafe" },
-  { name: "Sara", role: "Aromaterapia", tone: "sage" },
-  { name: "Lucía", role: "Tantra clásico", tone: "deep" },
-  { name: "Valentina", role: "Sensorial", tone: "crema" },
+export const THERAPISTS: Array<{ name: string; role: string; tone: "cafe" | "sage" | "deep" | "crema"; image: string }> = [
+  { name: "María José", role: "Lead · Alquimia", tone: "cafe", image: "" },
+  { name: "Sara", role: "Aromaterapia", tone: "sage", image: "" },
+  { name: "Lucía", role: "Tantra clásico", tone: "deep", image: "" },
+  { name: "Valentina", role: "Sensorial", tone: "crema", image: "" },
 ];
 
 export const GIFT_TIERS = ["$170k", "$250k", "$680k", "a medida"];

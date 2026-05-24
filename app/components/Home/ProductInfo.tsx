@@ -58,36 +58,41 @@ export const ProductInfo = () => {
                     </p>
                 </div>
                 <div>
-                    <Eyebrow style={{ marginBottom: 18 }}>Terapeutas</Eyebrow>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                        {THERAPISTS.map((t) => (
-                            <div key={t.name}>
-                                <Placeholder tone={t.tone} style={{ aspectRatio: "1/1.1" }} />
-                                <div style={{ paddingTop: 10 }}>
-                                    <div
-                                        style={{
-                                            fontFamily: "var(--ff-display)",
-                                            fontSize: 18,
-                                            color: "var(--negro)",
-                                        }}
-                                    >
-                                        {t.name}
-                                    </div>
-                                    <div
-                                        style={{
-                                            fontFamily: "var(--ff-mono)",
-                                            fontSize: 9,
-                                            letterSpacing: "0.18em",
-                                            color: "var(--ink-mute)",
-                                            textTransform: "uppercase",
-                                        }}
-                                    >
-                                        {t.role}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <Eyebrow style={{ marginBottom: 18 }}>Lunae</Eyebrow>
+                    <h3
+                        style={{
+                            fontFamily: "var(--ff-display)",
+                            fontWeight: 400,
+                            fontSize: 52,
+                            lineHeight: 1.05,
+                            margin: "0 0 28px",
+                            color: "var(--negro)",
+                        }}
+                    >
+                        ¿Quienes <em style={{ color: "var(--cafe)" }}>somos?</em>
+                    </h3>
+                    <p
+                        style={{
+                            fontFamily: "var(--ff-body)",
+                            fontSize: 16,
+                            lineHeight: 1.7,
+                            color: "var(--ink)",
+                            margin: "0 0 24px",
+                        }}
+                    >
+                        Lunae Spa es un espacio de bienestar inspirado en la energía y la calma de la luna, creado para ofrecer experiencias de relajación, conexión y renovación personal. 
+                    </p>
+                    <p
+                        style={{
+                            fontFamily: "var(--ff-body)",
+                            fontSize: 16,
+                            lineHeight: 1.7,
+                            color: "var(--ink)",
+                            margin: 0,
+                        }}
+                    >
+                        A través de masajes tántricos, técnicas de respiración consciente y rituales sensoriales, brindamos un ambiente seguro, profesional y armonioso donde cada persona puede reconectar con su cuerpo, reducir el estrés y encontrar equilibrio entre mente, emociones y energía. 
+                    </p>
                 </div>
             </div>
         </section>

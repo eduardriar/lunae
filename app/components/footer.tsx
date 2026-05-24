@@ -1,3 +1,4 @@
+import { CONTENT } from "../lib/content/content";
 import { Logo } from "./logo";
 
 export function Footer() {
@@ -18,43 +19,39 @@ export function Footer() {
               maxWidth: 360,
             }}
           >
-            Un espacio para reencontrarte, bajo la calma de la luna.
+            {CONTENT.footer.span}
           </p>
         </div>
         <div>
-          <h4>Visítanos</h4>
+          <h4>{CONTENT.footer.visitUs}</h4>
           <p>
-            Cra. 11 #93–43
+            {CONTENT.footer.address}
             <br />
-            Chicó, Bogotá
+            {CONTENT.footer.neighbor}
             <br />
-            +57 313 555 0142
+            {CONTENT.footer.whatsapp.account}
           </p>
         </div>
         <div>
-          <h4>Horario</h4>
+          <h4>{CONTENT.footer.schedule.title}</h4>
           <p>
-            Lun – Sáb · 10–9
-            <br />
-            Domingo · 11–7
-            <br />
-            Última cita 8 pm
+            {CONTENT.footer.schedule.dates}
           </p>
         </div>
         <div>
-          <h4>Síguenos</h4>
+          <h4>{CONTENT.footer.followUs}</h4>
           <p>
-            Instagram · @lunae.spa
+            {CONTENT.footer.instagram.label} · {CONTENT.footer.instagram.account}
             <br />
-            WhatsApp · directo
+            {CONTENT.footer.whatsapp.label} · {CONTENT.footer.whatsapp.account}
             <br />
-            Carta privada
+            {CONTENT.footer.additional}
           </p>
         </div>
       </div>
       <div className="lfooter-bot">
-        <span>© 2026 Lunae · Spa tántrico de bienestar</span>
-        <span>Privacidad · Términos</span>
+        <span>{CONTENT.footer.copyright}</span>
+        <span>{CONTENT.footer.dataPrivacy}</span>
       </div>
     </footer>
   );
