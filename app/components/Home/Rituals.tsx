@@ -74,7 +74,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             textAlign: "left",
                         }}
                     >
-                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl}/>
+                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl} alt={r.name}/>
                         <div style={{ paddingTop: 18 }}>
                             <h3
                                 style={{

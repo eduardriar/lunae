@@ -1,6 +1,6 @@
 import { CONTENT } from "@/app/lib/content/content"
 import { Eyebrow } from "../eyebrow"
-import { Placeholder } from "../placeholder"
+import { Map } from "./Map"
 
 export const Location = () => {
     return (
@@ -9,7 +9,7 @@ export const Location = () => {
             style={{
                 padding: "110px 64px",
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "1fr",
                 gap: 24,
                 maxWidth: 1320,
                 margin: "0 auto",
@@ -37,11 +37,12 @@ export const Location = () => {
                 >
                     {CONTENT.location.address}
                 </h3>
-                <Placeholder
-                    tone="dark"
-                    label="mapa · chicó, bogotá"
-                    style={{ height: 180, borderRadius: 4, marginBottom: 24 }}
-                />
+                <div
+                    style={{
+                        width: '100%'
+                    }}>
+                    <Map />
+                </div>
                 <div
                     style={{
                         fontFamily: "var(--ff-body)",

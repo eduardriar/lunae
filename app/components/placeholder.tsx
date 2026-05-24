@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 
 type Tone = "crema" | "sage" | "cafe" | "dark" | "deep";
@@ -8,6 +9,7 @@ type PlaceholderProps = {
   imageUrl?: string | null;
   children?: ReactNode;
   style?: CSSProperties;
+  alt?: string;
 };
 
 const TONE_CLASS: Record<Tone, string> = {
@@ -18,23 +20,12 @@ const TONE_CLASS: Record<Tone, string> = {
   deep: "ph ph-deep",
 };
 
-export function Placeholder({ label, tone = "crema", imageUrl, children, style }: PlaceholderProps) {
-  const composedStyle: CSSProperties = {
-    aspectRatio: "1 / 1",
-    ...(imageUrl
-      ? {
-          backgroundImage: `url("${imageUrl}")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }
-      : null),
-    ...style,
-  };
+export function Placeholder({ label, tone = "crema", imageUrl, children, style, alt }: PlaceholderProps) {
 
   return (
-    <div className={imageUrl ? undefined : TONE_CLASS[tone] } style={composedStyle}>
+    <div className={imageUrl ? undefined : TONE_CLASS[tone] } style={style}>
       {!imageUrl && label ? <div className="ph-label">{label}</div> : null}
+      {imageUrl && alt && <Image src={imageUrl} alt={alt} width={100} height={100}/>}
       {children}
     </div>
   );

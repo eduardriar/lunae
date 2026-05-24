@@ -1,6 +1,4 @@
-import { THERAPISTS } from "@/app/utils/texts"
 import { Eyebrow } from "../eyebrow"
-import { Placeholder } from "../placeholder"
 
 export const ProductInfo = () => {
     return (
