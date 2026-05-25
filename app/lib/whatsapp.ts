@@ -62,6 +62,21 @@ export const sendTextMessage = (to: string, body: string) =>
     text: { body, preview_url: false },
   });
 
+export const sendImageMessage = (
+  to: string,
+  imageUrl: string,
+  caption?: string
+) =>
+  postMessage({
+    messaging_product: 'whatsapp',
+    to,
+    type: 'image',
+    image: {
+      link: imageUrl,
+      ...(caption ? { caption: caption.slice(0, 1024) } : {}),
+    },
+  });
+
 export const sendTemplateMessage = (
   to: string,
   templateName: string,

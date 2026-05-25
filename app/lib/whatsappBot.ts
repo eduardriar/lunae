@@ -4,6 +4,7 @@ import { getAvailableSlots } from './availableSlots';
 import { createCalendarEvent } from './calendarEvents';
 import {
   sendTextMessage,
+  sendImageMessage,
   sendInteractiveListMessage,
   sendInteractiveButtonMessage,
 } from './whatsapp';
@@ -248,6 +249,18 @@ const sendServiceList = async (conversation: WhatsappConversation) => {
 
   await updateConversation(conversation.id, WhatsappConversationState.awaiting_service, null);
 
+  for (const service of services) {
+    if (!service.image_url) continue;
+    try {
+      await sendImageMessage(
+        conversation.contactPhone,
+        service.image_url
+      );
+    } catch (error) {
+      console.warn('Failed to send service preview image:', service.id, error);
+    }
+  }
+
   await sendInteractiveListMessage(
     conversation.contactPhone,
     CONTENT.whatsapp.service[0],
@@ -400,18 +413,6 @@ const completeReservation = async (
     );
     return;
   }
-
-  const reservation = await prisma.reservation.create({
-    data: {
-      name: cleanName,
-      phone: conversation.contactPhone,
-      serviceId: context.serviceId,
-      date: new Date(context.date),
-      hour: context.hour,
-      duration: context.serviceDuration,
-      price: context.servicePrice,
-    },
-  });
 
   try {
     const start = new Date(`${context.date}T${context.hour}:00${TZ_OFFSET}`);

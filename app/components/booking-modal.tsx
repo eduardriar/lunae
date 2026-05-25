@@ -32,6 +32,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
   const [errors, setErrors] = useState<Step3Errors>({});
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const { createReservation, loading: loadingReservation, error: loadingError, reservation } = useCreateReservation();
   const reservationId = useMemo(
     () => `LN-${Math.floor(4000 + Math.random() * 1000)}`,
@@ -88,6 +89,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     setPhone("");
     setEmail("");
     setErrors({});
+    setTermsAccepted(false);
     onClose();
   };
 
@@ -229,6 +231,8 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 time={time}
                 name={name}
                 reservationId={reservationId}
+                termsAccepted={termsAccepted}
+                onTermsChange={setTermsAccepted}
               />
             )}
           </div>
@@ -278,8 +282,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               onClick={() => {
                 createCalendarEvent()
               }}
+              disabled={!termsAccepted}
               className="btn btn-primary"
-              style={{ fontSize: 13, padding: "14px 28px" }}
+              style={{
+                fontSize: 13,
+                padding: "14px 28px",
+                opacity: termsAccepted ? 1 : 0.45,
+                cursor: termsAccepted ? "pointer" : "not-allowed",
+              }}
             >
               Confirmar
             </button>
