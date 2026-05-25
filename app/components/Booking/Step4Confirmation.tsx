@@ -5,6 +5,7 @@ import { formatCurrency } from "@/app/utils/currency";
 import { headlineStyle, subStyle } from "./styles";
 import { WorkDay } from "@/app/utils/workDays";
 import { ADDRESS } from "@/app/lib/content/content";
+import { TermsAndConditions } from "../shared/TermsAndConditions";
 
 type Step4ConfirmationProps = {
   ritual: Service;
@@ -25,7 +26,6 @@ export function Step4Confirmation({
   termsAccepted,
   onTermsChange,
 }: Step4ConfirmationProps) {
-  const TC = "/files/T&C_Lunae.pdf"
   const rows = [
     ["Ritual", `${ritual.name} · ${ritual.duration} minutos`],
     ["Fecha & hora", `${!!day && day.iso} May · ${time}`],
@@ -129,17 +129,9 @@ export function Step4Confirmation({
         />
         <span>
           He leído y acepto los{" "}
-          <a
-            href={TC}
-            download="Terminos-y-Condiciones-Lunae.pdf"
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: "var(--cafe)", textDecoration: "underline" }}
-          >
-            Términos y Condiciones
-          </a>
-          .
         </span>
+        <TermsAndConditions style={{ color: "var(--cafe)" }} />
+        .
       </label>
 
       {/* <div style={{ display: "flex", gap: 8, marginTop: 22 }}>

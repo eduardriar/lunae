@@ -1,5 +1,6 @@
 import { CONTENT } from "../lib/content/content";
 import { Logo } from "./logo";
+import { TermsAndConditions } from "./shared/TermsAndConditions";
 
 export function Footer() {
   return (
@@ -51,7 +52,7 @@ export function Footer() {
       </div>
       <div className="lfooter-bot">
         <span>{CONTENT.footer.copyright}</span>
-        <span>{CONTENT.footer.dataPrivacy}</span>
+        <TermsAndConditions text={CONTENT.footer.dataPrivacy}/>
       </div>
     </footer>
   );

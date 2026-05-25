@@ -23,9 +23,11 @@ const TONE_CLASS: Record<Tone, string> = {
 export function Placeholder({ label, tone = "crema", imageUrl, children, style, alt }: PlaceholderProps) {
 
   return (
-    <div className={imageUrl ? undefined : TONE_CLASS[tone] } style={style}>
+    <div className={imageUrl ? undefined : TONE_CLASS[tone]} style={style}>
       {!imageUrl && label ? <div className="ph-label">{label}</div> : null}
-      {imageUrl && alt && <Image src={imageUrl} alt={alt} width={100} height={100}/>}
+      {imageUrl && alt && <Image src={imageUrl} alt={alt} height={0}
+        width={1500}
+        style={{ height: "100%", width: "auto" }} />}
       {children}
     </div>
   );
