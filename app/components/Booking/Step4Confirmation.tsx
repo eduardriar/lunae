@@ -4,8 +4,7 @@ import { Service, User, UserType } from "@/app/generated/prisma/client";
 import { formatCurrency } from "@/app/utils/currency";
 import { headlineStyle, subStyle } from "./styles";
 import { WorkDay } from "@/app/utils/workDays";
-
-type Therapist = User & { userType: UserType };
+import { ADDRESS } from "@/app/lib/content/content";
 
 type Step4ConfirmationProps = {
   ritual: Service;
@@ -13,6 +12,8 @@ type Step4ConfirmationProps = {
   time: string;
   name: string;
   reservationId: string;
+  termsAccepted: boolean;
+  onTermsChange: (accepted: boolean) => void;
 };
 
 export function Step4Confirmation({
@@ -21,11 +22,14 @@ export function Step4Confirmation({
   time,
   name,
   reservationId,
+  termsAccepted,
+  onTermsChange,
 }: Step4ConfirmationProps) {
+  const TC = "/files/T&C_Lunae.pdf"
   const rows = [
     ["Ritual", `${ritual.name} · ${ritual.duration} minutos`],
     ["Fecha & hora", `${!!day && day.iso} May · ${time}`],
-    ["Lugar", "Cra. 11 #93–43, Bogotá"],
+    ["Lugar", ADDRESS],
     ["Total", formatCurrency(ritual.price)],
   ] as const;
 
@@ -104,6 +108,39 @@ export function Step4Confirmation({
           </div>
         ))}
       </div>
+
+      <label
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 10,
+          marginTop: 18,
+          fontFamily: "var(--ff-body)",
+          fontSize: 13,
+          color: "var(--ink)",
+          cursor: "pointer",
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={termsAccepted}
+          onChange={(e) => onTermsChange(e.target.checked)}
+          style={{ marginTop: 3, accentColor: "var(--cafe)", cursor: "pointer" }}
+        />
+        <span>
+          He leído y acepto los{" "}
+          <a
+            href={TC}
+            download="Terminos-y-Condiciones-Lunae.pdf"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "var(--cafe)", textDecoration: "underline" }}
+          >
+            Términos y Condiciones
+          </a>
+          .
+        </span>
+      </label>
 
       {/* <div style={{ display: "flex", gap: 8, marginTop: 22 }}>
         <button

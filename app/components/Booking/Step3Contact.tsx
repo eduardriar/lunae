@@ -1,6 +1,7 @@
 "use client";
 
 import { fieldLabelStyle, headlineStyle, subStyle } from "./styles";
+import { PhoneField } from "@/app/components/shared/PhoneField";
 
 const PREFS = ["Aromaterapia suave", "Música instrumental", "Sin conversación", "Té después"];
 
@@ -11,8 +12,6 @@ type Step3ContactProps = {
   setName: (v: string) => void;
   phone: string;
   setPhone: (v: string) => void;
-  email: string;
-  setEmail: (v: string) => void;
   prefs: Set<string>;
   togglePref: (p: string) => void;
   errors: Step3Errors;
@@ -23,8 +22,6 @@ export function Step3Contact({
   setName,
   phone,
   setPhone,
-  email,
-  setEmail,
   prefs,
   togglePref,
   errors,
@@ -44,20 +41,12 @@ export function Step3Contact({
           placeholder="Como prefieras que te llamemos"
           error={errors.name}
         />
-        <Field
+        <PhoneField
           label="WhatsApp"
           value={phone}
           onChange={setPhone}
-          placeholder="+57 ..."
+          placeholder="300 000 0000"
           error={errors.phone}
-          maxLength={10}
-        />
-        <Field
-          label="Email · opcional"
-          value={email}
-          onChange={setEmail}
-          placeholder="Para enviar tu confirmación"
-          error={errors.email}
         />
 
         <div style={{ marginTop: 8 }}>

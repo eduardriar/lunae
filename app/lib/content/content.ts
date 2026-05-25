@@ -1,4 +1,4 @@
-const ADDRESS = "Cra. 70D # 48 - 37";
+export const ADDRESS = "Cra. 70D # 48 - 37";
 const SCHEDULE = "Lun–Sáb · 10–9 · Dom · 11–7";
 const NUMBER = "+57 324 3425393";
 const EMAIL = "contacto@lunae.spa";

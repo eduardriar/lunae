@@ -1,13 +1,9 @@
-import prisma from '@/app/lib/prisma';
+import { getActiveServices } from '@/app/lib/services';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const services = await prisma.service.findMany({
-      where: { state: true },
-      orderBy: { name: 'asc' },
-    });
-
+    const services = await getActiveServices();
     return NextResponse.json(services);
   } catch (error) {
     console.error('Error en GET /api/services:', error);

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Step1Ritual } from "./Booking/Step1Ritual";
-import { Step2Therapist } from "./Booking/Step2Therapist";
 import { Step2DateTime } from "./Booking/Step2DateTime";
 import { Step3Contact, type Step3Errors } from "./Booking/Step3Contact";
 import { Step4Confirmation } from "./Booking/Step4Confirmation";
@@ -30,9 +29,9 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
   const [errors, setErrors] = useState<Step3Errors>({});
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const { createReservation, loading: loadingReservation, error: loadingError, reservation } = useCreateReservation();
   const reservationId = useMemo(
     () => `LN-${Math.floor(4000 + Math.random() * 1000)}`,
@@ -67,7 +66,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     const e: Step3Errors = {};
     if (!name.trim() || name.trim().length < 2) e.name = "Necesitamos tu nombre";
     if (!phone.trim() || phone.replace(/\D/g, "").length < 7) e.phone = "WhatsApp con código de país";
-    if (email && !/.+@.+\..+/.test(email)) e.email = "Revisa el correo";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -87,8 +85,8 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     setStep(1);
     setName("");
     setPhone("");
-    setEmail("");
     setErrors({});
+    setTermsAccepted(false);
     onClose();
   };
 
@@ -97,7 +95,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     if (!!day && !!time) {
       createReservation({
         name: name,
-        email: email,
         phone: phone,
         service: ritual,
         date: day,
@@ -216,8 +213,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 setName={setName}
                 phone={phone}
                 setPhone={setPhone}
-                email={email}
-                setEmail={setEmail}
                 prefs={prefs}
                 togglePref={togglePref}
                 errors={errors}
@@ -230,6 +225,8 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 time={time}
                 name={name}
                 reservationId={reservationId}
+                termsAccepted={termsAccepted}
+                onTermsChange={setTermsAccepted}
               />
             )}
           </div>
@@ -279,8 +276,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               onClick={() => {
                 createCalendarEvent()
               }}
+              disabled={!termsAccepted}
               className="btn btn-primary"
-              style={{ fontSize: 13, padding: "14px 28px" }}
+              style={{
+                fontSize: 13,
+                padding: "14px 28px",
+                opacity: termsAccepted ? 1 : 0.45,
+                cursor: termsAccepted ? "pointer" : "not-allowed",
+              }}
             >
               Confirmar
             </button>

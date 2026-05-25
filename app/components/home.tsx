@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { Strip } from "./strip";
