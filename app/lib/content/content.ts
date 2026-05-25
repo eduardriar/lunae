@@ -33,7 +33,7 @@ export const CONTENT = {
         },
         additional: "Carta Privada",
         copyright: "© 2026 Lunae · Spa tántrico de bienestar",
-        dataPrivacy: "Privacidad · Términos"
+        dataPrivacy: "Tratamiento de Datos Personales"
     },
     whatsapp: {
         welcome: [
