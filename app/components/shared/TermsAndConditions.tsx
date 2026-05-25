@@ -5,8 +5,8 @@ type TermsAndConditionsProps = {
     style?: CSSProperties
 }
 
-export const TermsAndConditions = ({ text = "Términos y Condiciones", style }: TermsAndConditionsProps) => {
-    const TC = "/files/T&C_Lunae.pdf"
+export const TermsAndConditions = ({ text = "Privacidad", style }: TermsAndConditionsProps) => {
+    const TC = "/files/privacy.pdf"
 
     return (
         <span>
