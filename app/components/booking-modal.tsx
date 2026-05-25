@@ -29,7 +29,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
   const [errors, setErrors] = useState<Step3Errors>({});
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -67,7 +66,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     const e: Step3Errors = {};
     if (!name.trim() || name.trim().length < 2) e.name = "Necesitamos tu nombre";
     if (!phone.trim() || phone.replace(/\D/g, "").length < 7) e.phone = "WhatsApp con código de país";
-    if (email && !/.+@.+\..+/.test(email)) e.email = "Revisa el correo";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -87,7 +85,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     setStep(1);
     setName("");
     setPhone("");
-    setEmail("");
     setErrors({});
     setTermsAccepted(false);
     onClose();
@@ -98,7 +95,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
     if (!!day && !!time) {
       createReservation({
         name: name,
-        email: email,
         phone: phone,
         service: ritual,
         date: day,
@@ -217,8 +213,6 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 setName={setName}
                 phone={phone}
                 setPhone={setPhone}
-                email={email}
-                setEmail={setEmail}
                 prefs={prefs}
                 togglePref={togglePref}
                 errors={errors}

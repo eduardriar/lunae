@@ -12,8 +12,6 @@ type Step3ContactProps = {
   setName: (v: string) => void;
   phone: string;
   setPhone: (v: string) => void;
-  email: string;
-  setEmail: (v: string) => void;
   prefs: Set<string>;
   togglePref: (p: string) => void;
   errors: Step3Errors;
@@ -24,8 +22,6 @@ export function Step3Contact({
   setName,
   phone,
   setPhone,
-  email,
-  setEmail,
   prefs,
   togglePref,
   errors,
@@ -51,13 +47,6 @@ export function Step3Contact({
           onChange={setPhone}
           placeholder="300 000 0000"
           error={errors.phone}
-        />
-        <Field
-          label="Email · opcional"
-          value={email}
-          onChange={setEmail}
-          placeholder="Para enviar tu confirmación"
-          error={errors.email}
         />
 
         <div style={{ marginTop: 8 }}>

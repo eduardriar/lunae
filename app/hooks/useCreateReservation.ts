@@ -4,7 +4,7 @@ import { WorkDay } from '../utils/workDays';
 
 export type CreateReservationInput = {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   service: Service;
   date: WorkDay;
