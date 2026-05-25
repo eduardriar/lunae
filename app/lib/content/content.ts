@@ -1,5 +1,40 @@
+const ADDRESS = "Cra. 70D # 48 - 37";
+const SCHEDULE = "Lun–Sáb · 10–9 · Dom · 11–7";
+const NUMBER = "+57 324 3425393";
+const EMAIL = "contacto@lunae.spa";
+const NEIGHBOR = "Normandía, Bogotá";
+const EYEBROW = "Visítanos"
+
 export const CONTENT = {
     name: "Lunae Spa",
+    location: {
+        eyebrow: EYEBROW,
+        address: ADDRESS,
+        contactInfo: `${NUMBER} · ${EMAIL}`,
+        schedule: SCHEDULE
+    },
+    footer: {
+        visitUs: EYEBROW,
+        span: "Un espacio para reencontrarte, bajo la calma de la luna.",
+        address: ADDRESS,
+        schedule: {
+            title: "Horario",
+            dates: SCHEDULE
+        },
+        neighbor: NEIGHBOR,
+        followUs: "Síguenos",
+        instagram: {
+            account: "",
+            label: "Instagram"
+        },
+        whatsapp: {
+            account: NUMBER,
+            label: "WhatsApp"
+        },
+        additional: "Carta Privada",
+        copyright: "© 2026 Lunae · Spa tántrico de bienestar",
+        dataPrivacy: "Privacidad · Términos"
+    },
     whatsapp: {
         welcome: [
             "🌙 ¡Hola! Bienvenido a Lunae Spa\n\nSomos un espacio de renovación inspirado en la calma y el poder sanador de la luna.\nAquí te invitamos a reconectar con tu cuerpo, liberar tensiones y vivir una experiencia sensorial única.\n\n¿Qué deseas explorar hoy?",

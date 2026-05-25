@@ -1,6 +1,6 @@
-import { GIFT_TIERS } from "@/app/utils/texts"
+import { CONTENT } from "@/app/lib/content/content"
 import { Eyebrow } from "../eyebrow"
-import { Placeholder } from "../placeholder"
+import { Map } from "./Map"
 
 export const Location = () => {
     return (
@@ -9,7 +9,7 @@ export const Location = () => {
             style={{
                 padding: "110px 64px",
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "1fr",
                 gap: 24,
                 maxWidth: 1320,
                 margin: "0 auto",
@@ -24,7 +24,7 @@ export const Location = () => {
                 }}
             >
                 <Eyebrow color="var(--sage)" style={{ marginBottom: 18 }}>
-                    Visítanos
+                    {CONTENT.location.eyebrow}
                 </Eyebrow>
                 <h3
                     style={{
@@ -35,13 +35,14 @@ export const Location = () => {
                         color: "var(--blanco)",
                     }}
                 >
-                    Cra. 11 #93–43
+                    {CONTENT.location.address}
                 </h3>
-                <Placeholder
-                    tone="dark"
-                    label="mapa · chicó, bogotá"
-                    style={{ height: 180, borderRadius: 4, marginBottom: 24 }}
-                />
+                <div
+                    style={{
+                        width: '100%'
+                    }}>
+                    <Map />
+                </div>
                 <div
                     style={{
                         fontFamily: "var(--ff-body)",
@@ -50,12 +51,12 @@ export const Location = () => {
                         opacity: 0.85,
                     }}
                 >
-                    Lun–Sáb · 10–9 · Dom · 11–7
+                    {CONTENT.location.schedule}
                     <br />
-                    +57 313 555 0142 · hola@lunae.spa
+                    {CONTENT.location.contactInfo}
                 </div>
             </div>
-            <div
+            {/* <div
                 data-section="regalo"
                 style={{
                     background: "var(--sage)",
@@ -109,7 +110,7 @@ export const Location = () => {
                         </button>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </section>
     )
 }
