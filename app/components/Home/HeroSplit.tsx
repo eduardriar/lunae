@@ -15,24 +15,22 @@ type HeroSplitProps = {
 }
 
 export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplitProps) => {
-
-
     return (
         <section
             data-section="hero"
             style={{
-                display: "grid",
-                gridTemplateColumns: "1.05fr 1fr",
-                minHeight: 720,
+                display: "flex",
+                flexDirection: "row",
+                minHeight: 576,
                 borderBottom: "1px solid var(--line-soft)",
             }}
         >
             <div
                 style={{
+                    width: "50%",
                     padding: "72px 64px 64px",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between",
                 }}
             >
                 <div>
@@ -197,31 +195,15 @@ export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplit
                 tone="dark"
                 imageUrl={'https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779486468/13_mrxetx.png'}
                 alt="Imagen de masaje relajante"
-                style={{ minHeight: 720, position: "relative" }}
+                style={{ width: "30%", minHeight: 720, position: "relative" }}
             >
                 <div
                     style={{
                         position: "absolute",
-                        top: 32,
-                        right: 32,
-                        color: "var(--crema)",
-                        fontFamily: "var(--ff-mono)",
-                        fontSize: 10,
-                        letterSpacing: "0.22em",
-                        textTransform: "uppercase",
-                        opacity: 0.7,
-                        zIndex: 1,
-                    }}
-                >
-                    ✦ ed. 04 · luz de vela
-                </div>
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: 40,
+                        top: 10,
                         left: 40,
                         right: 40,
-                        color: "var(--blanco)",
+                        padding: "1rem",
                         zIndex: 1,
                     }}
                 >
@@ -229,11 +211,11 @@ export const Hero = ({ ritualSel, setRitualSel, slotSel, setSlotSel }: HeroSplit
                         style={{
                             fontFamily: "var(--ff-display)",
                             fontStyle: "italic",
-                            fontSize: 32,
+                            fontSize: "3rem",
                             lineHeight: 1.25,
                             margin: 0,
-                            maxWidth: 720,
-                            color: "var(--negro-pure)"
+                            width: "100%",
+                            color: "var(--blanco)"
                         }}
                     >
                         &ldquo;Una hora aquí cambia toda la semana.&rdquo;
