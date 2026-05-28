@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ServicesProvider } from "./context/services-context";
 import { UsersProvider } from "./context/users-context";
+import { ReservationProvider } from "./context/reservation-context";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -44,7 +45,9 @@ export default function RootLayout({
     >
       <body>
         <ServicesProvider>
-          <UsersProvider>{children}</UsersProvider>
+          <UsersProvider>
+            <ReservationProvider>{children}</ReservationProvider>
+          </UsersProvider>
         </ServicesProvider>
       </body>
     </html>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { WorkDay } from '../utils/workDays';
-import { Therapist } from '../components/booking-modal';
 
 export type AvailableSlots = {
     start: string,
@@ -14,12 +13,12 @@ export const useCalendarAvailability = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchCalendarAvailability = async (date: WorkDay | undefined) => {
+    const fetchCalendarAvailability = async (date: WorkDay | string | undefined) => {
         if (!date) return;
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch(`/api/calendar/available-slots?date=${date?.iso}`);
+            const res = await fetch(`/api/calendar/available-slots?date=${typeof date !== "string" ? date?.iso : date}`);
             if (!res.ok) throw new Error(`Request failed: ${res.status}`);
             const data = await res.json();
             setAvailability(data.availableSlots);
