@@ -41,7 +41,7 @@ export function UsersProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    fetchTherapists();
+    // fetchTherapists();
   }, []);
 
   return (

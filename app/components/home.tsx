@@ -6,28 +6,28 @@ import { Nav } from "./nav";
 import { Strip } from "./strip";
 import { BookingModal } from "./booking-modal";
 import { useToast } from "./toast";
-import { Hero } from "./Home/HeroSplit";
-import { HERO_OPTIONS, HERO_SLOTS } from "../utils/texts";
+import { Hero } from "./Hero/HeroSplit";
 import { Rituals } from "./Home/Rituals";
 import { ProductInfo } from "./Home/ProductInfo";
 import { Location } from "./Home/Location";
 import { Service } from "../generated/prisma/client";
+import { useReservation } from "../context/reservation-context";
 
 export function Home() {
-  const [ritualSel, setRitualSel] = useState(HERO_OPTIONS[0]);
-  const [slotSel, setSlotSel] = useState(HERO_SLOTS[1]);
-  const [bookingOpen, setBookingOpen] = useState(false);
+  const reservation = useReservation()
   const [bookingRitual, setBookingRitual] = useState<Service | null>(null);
   const [showToast, toastNode] = useToast();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const open = (ritual?: Service) => {
     setBookingRitual(ritual ?? null);
-    setBookingOpen(true);
+    reservation.setBookingOpen(true);
   };
 
-  const onConfirm = (ritual: Service) => {
-    showToast(`Ritual reservado${ritual.name ? `, ${ritual.name.split(" ")[0]}` : ""}. Confirmamos por WhatsApp.`);
+  const onConfirm = (ritual: Service | undefined) => {
+    if(!!ritual){
+      showToast(`Ritual reservado${ritual.name ? `, ${ritual.name.split(" ")[0]}` : ""}. Confirmamos por WhatsApp.`);
+    }
   };
 
   const scrollTo = (id: string) => {
@@ -42,7 +42,7 @@ export function Home() {
       <div ref={rootRef} className="lpage">
         <Strip />
         <Nav onBook={() => open()} onNavigate={scrollTo} />
-        <Hero ritualSel={ritualSel} setRitualSel={setRitualSel} slotSel={slotSel} setSlotSel={setSlotSel}/>
+        <Hero />
         <Rituals open={open}/>
         <ProductInfo />
         <Location />
@@ -50,9 +50,9 @@ export function Home() {
       </div>
 
       <BookingModal
-        open={bookingOpen}
+        open={reservation.bookingOpen}
         initialRitual={bookingRitual}
-        onClose={() => setBookingOpen(false)}
+        onClose={() => reservation.setBookingOpen(false)}
         onConfirm={onConfirm}
       />
 

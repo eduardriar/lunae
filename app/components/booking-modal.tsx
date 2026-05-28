@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { Step1Ritual } from "./Booking/Step1Ritual";
 import { Step2DateTime } from "./Booking/Step2DateTime";
-import { Step3Contact, type Step3Errors } from "./Booking/Step3Contact";
+import { Step3Contact } from "./Booking/Step3Contact";
 import { Step4Confirmation } from "./Booking/Step4Confirmation";
 import { Service, User, UserType } from "../generated/prisma/client";
 import { useServices } from "../context/services-context";
-import { WorkDay } from "../utils/workDays";
-import { useCreateReservation } from "../hooks/useCreateReservation";
+import { useReservation, TOTAL_STEPS } from "../context/reservation-context";
 
 export type Therapist = User & { userType: UserType };
 
@@ -16,30 +15,21 @@ type BookingModalProps = {
   open: boolean;
   initialRitual?: Service | null;
   onClose: () => void;
-  onConfirm?: (ritual: Service) => void;
+  onConfirm?: (ritual: Service | undefined) => void;
 };
-
-const TOTAL_STEPS = 4;
 
 export function BookingModal({ open, initialRitual, onClose, onConfirm }: BookingModalProps) {
   const { services } = useServices();
-  const [step, setStep] = useState(1);
-  const [ritual, setRitual] = useState<Service>(initialRitual ?? services[0]);
-  const [day, setDay] = useState<WorkDay>();
-  const [time, setTime] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [prefs, setPrefs] = useState<Set<string>>(new Set(["Aromaterapia suave"]));
-  const [errors, setErrors] = useState<Step3Errors>({});
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const { createReservation, loading: loadingReservation, error: loadingError, reservation } = useCreateReservation();
-  const reservationId = useMemo(
-    () => `LN-${Math.floor(4000 + Math.random() * 1000)}`,
-    [step === TOTAL_STEPS] // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  const reservation = useReservation();
 
   useEffect(() => {
-    if (open && initialRitual) setRitual(initialRitual);
+    if (!open) return;
+    if (initialRitual) {
+      reservation.setRitual(initialRitual);
+    } else if (!reservation.ritual && services[0]) {
+      reservation.setRitual(services[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, initialRitual]);
 
   useEffect(() => {
@@ -53,59 +43,17 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
 
   if (!open) return null;
 
-  const togglePref = (p: string) => {
-    setPrefs((current) => {
-      const next = new Set(current);
-      if (next.has(p)) next.delete(p);
-      else next.add(p);
-      return next;
-    });
-  };
-
-  const validateContact = () => {
-    const e: Step3Errors = {};
-    if (!name.trim() || name.trim().length < 2) e.name = "Necesitamos tu nombre";
-    if (!phone.trim() || phone.replace(/\D/g, "").length < 7) e.phone = "WhatsApp con código de país";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
-
-  const canContinue = () => {
-    if (step === 1) return !!ritual;
-    return true;
-  };
-
-  const next = () => {
-    if (!canContinue()) return;
-    if (step === 4 && !validateContact()) return;
-    setStep((s) => Math.min(TOTAL_STEPS, s + 1));
-  };
-  const back = () => setStep((s) => Math.max(1, s - 1));
-  const reset = () => {
-    setStep(1);
-    setName("");
-    setPhone("");
-    setErrors({});
-    setTermsAccepted(false);
+  const handleClose = () => {
     onClose();
   };
 
-  const createCalendarEvent = async () => {
-
-    if (!!day && !!time) {
-      createReservation({
-        name: name,
-        phone: phone,
-        service: ritual,
-        date: day,
-        hour: time,
-        duration: 1
-      }, () => {
-          onConfirm?.(ritual);
-          reset();
-      })
-    }
-  }
+  const handleConfirm = () => {
+    if (!reservation.ritual || !reservation.day || !reservation.time) return;
+    reservation.submit(() => {
+      onConfirm?.(reservation.ritual);
+      onClose();
+    });
+  };
 
   return (
     <div
@@ -156,11 +104,11 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               color: "var(--cafe)",
             }}
           >
-            Reserva · paso {step} de {TOTAL_STEPS}
+            Reserva · paso {reservation.step} de {TOTAL_STEPS}
           </div>
           <button
             type="button"
-            onClick={reset}
+            onClick={handleClose}
             aria-label="Cerrar"
             style={{
               background: "transparent",
@@ -185,48 +133,45 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
                 flex: 1,
                 height: 3,
                 borderRadius: 2,
-                background: s <= step ? "var(--negro)" : "var(--line)",
+                background: s <= reservation.step ? "var(--negro)" : "var(--line)",
                 transition: "background 0.4s ease",
               }}
             />
           ))}
         </div>
 
-        <div style={{ flex: 1, padding: "40px 36px", overflow: "auto" }} key={step}>
+        <div style={{ flex: 1, padding: "40px 36px", overflow: "auto" }} key={reservation.step}>
           <div style={{ animation: "fadeUp 0.35s ease" }}>
-            {step === 1 && <Step1Ritual ritual={ritual} setRitual={setRitual} />}
-            {/* {step === 2 && (
-              <Step2Therapist therapist={therapist} setTherapist={setTherapist} />
-            )} */}
-            {step === 2 && (
+            {reservation.step === 1 && reservation.ritual && <Step1Ritual ritual={reservation.ritual} setRitual={reservation.setRitual} />}
+            {reservation.step === 2 && reservation.ritual && (
               <Step2DateTime
-                ritual={ritual}
-                day={day}
-                setDay={setDay}
-                time={time}
-                setTime={setTime}
+                ritual={reservation.ritual}
+                day={reservation.day}
+                setDay={reservation.setDay}
+                time={reservation.time}
+                setTime={reservation.setTime}
               />
             )}
-            {step === 3 && (
+            {reservation.step === 3 && (
               <Step3Contact
-                name={name}
-                setName={setName}
-                phone={phone}
-                setPhone={setPhone}
-                prefs={prefs}
-                togglePref={togglePref}
-                errors={errors}
+                name={reservation.name}
+                setName={reservation.setName}
+                phone={reservation.phone}
+                setPhone={reservation.setPhone}
+                prefs={reservation.prefs}
+                togglePref={reservation.togglePref}
+                errors={reservation.errors}
               />
             )}
-            {step === 4 && (
+            {reservation.step === 4 && reservation.ritual && (
               <Step4Confirmation
-                ritual={ritual}
-                day={day}
-                time={time}
-                name={name}
-                reservationId={reservationId}
-                termsAccepted={termsAccepted}
-                onTermsChange={setTermsAccepted}
+                ritual={reservation.ritual}
+                day={reservation.day}
+                time={reservation.time}
+                name={reservation.name}
+                reservationId={reservation.reservationId}
+                termsAccepted={reservation.termsAccepted}
+                onTermsChange={reservation.setTermsAccepted}
               />
             )}
           </div>
@@ -243,7 +188,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
         >
           <button
             type="button"
-            onClick={step === 1 ? reset : back}
+            onClick={reservation.step === 1 ? () => { reservation.reset(); onClose(); } : reservation.back}
             style={{
               background: "transparent",
               border: "none",
@@ -253,19 +198,19 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               cursor: "pointer",
             }}
           >
-            ← {step === 1 ? "Cancelar" : "Atrás"}
+            ← {reservation.step === 1 ? "Cancelar" : "Atrás"}
           </button>
-          {step < TOTAL_STEPS ? (
+          {reservation.step < TOTAL_STEPS ? (
             <button
               type="button"
-              onClick={next}
-              disabled={!canContinue()}
+              onClick={reservation.next}
+              disabled={!reservation.canContinue()}
               className="btn btn-primary"
               style={{
                 fontSize: 13,
                 padding: "14px 28px",
-                opacity: canContinue() ? 1 : 0.45,
-                cursor: canContinue() ? "pointer" : "not-allowed",
+                opacity: reservation.canContinue() ? 1 : 0.45,
+                cursor: reservation.canContinue() ? "pointer" : "not-allowed",
               }}
             >
               Continuar →
@@ -273,16 +218,14 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
           ) : (
             <button
               type="button"
-              onClick={() => {
-                createCalendarEvent()
-              }}
-              disabled={!termsAccepted}
+              onClick={handleConfirm}
+              disabled={!reservation.termsAccepted}
               className="btn btn-primary"
               style={{
                 fontSize: 13,
                 padding: "14px 28px",
-                opacity: termsAccepted ? 1 : 0.45,
-                cursor: termsAccepted ? "pointer" : "not-allowed",
+                opacity: reservation.termsAccepted ? 1 : 0.45,
+                cursor: reservation.termsAccepted ? "pointer" : "not-allowed",
               }}
             >
               Confirmar

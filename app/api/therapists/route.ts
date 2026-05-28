@@ -12,8 +12,6 @@ export async function GET() {
       orderBy: { name: 'asc' },
     });
 
-    console.log(therapists)
-
     return NextResponse.json(therapists);
   } catch (error) {
     console.error('Error en GET /api/therapists:', error);
