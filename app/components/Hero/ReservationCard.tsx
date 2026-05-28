@@ -70,7 +70,6 @@ export const ReserevationCard = () => {
                     <select
                         value={reservation.ritual?.id}
                         onChange={(e) => {
-                            console.log(e.target.value)
                             const found = services.find((o) => o.id === e.target.value);
                             if (found) reservation.setRitual(found);
                         }}
