@@ -3,9 +3,19 @@ import { Eyebrow } from "../eyebrow"
 import { Placeholder } from "../placeholder"
 import { useServices } from "@/app/context/services-context";
 import { formatCurrency } from "@/app/utils/currency";
+import { Dispatch, SetStateAction } from "react";
 
 type RitualsProps = {
-    open: (ritual?: Service | undefined) => void;
+    open: (ritual: {
+        name: string;
+        id: string;
+        duration: number;
+        price: number;
+        additionalPrice: number;
+        description: string[];
+        state: boolean;
+        imageUrl: string | null;
+    }) => void
 }
 
 export const Rituals = ({ open }: RitualsProps) => {
@@ -37,13 +47,6 @@ export const Rituals = ({ open }: RitualsProps) => {
                         Cuatro caminos, <em style={{ color: "var(--cafe)" }}>una luna.</em>
                     </h2>
                 </div>
-                <button
-                    onClick={() => open()}
-                    className="btn btn-primary"
-                    style={{ fontSize: 13, padding: "12px 24px" }}
-                >
-                    Agendar →
-                </button>
             </div>
             <div
                 style={{
@@ -61,7 +64,9 @@ export const Rituals = ({ open }: RitualsProps) => {
                         key={r.name}
                         type="button"
                         className="lift"
-                        onClick={() => open(r)}
+                        onClick={() => {
+                            open(r)
+                        }}
                         style={{
                             flex: "0 0 320px",
                             scrollSnapAlign: "start",
@@ -74,9 +79,8 @@ export const Rituals = ({ open }: RitualsProps) => {
                             textAlign: "left",
                         }}
                     >
-                        HOLA
-                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl} alt={r.name}/>
-                        <div style={{ paddingTop: 18 }}>
+                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl} alt={r.name} />
+                        <div style={{ padding: "1rem" }}>
                             <h3
                                 style={{
                                     fontFamily: "var(--ff-display)",

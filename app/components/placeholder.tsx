@@ -27,7 +27,7 @@ export function Placeholder({ label, tone = "crema", imageUrl, children, style, 
       {!imageUrl && label ? <div className="ph-label">{label}</div> : null}
       {imageUrl && alt && <Image src={imageUrl} alt={alt} height={0}
         width={1500}
-        style={{ height: "100%", width: "auto" }} />}
+        style={{ height: "100%", width: "auto", ...style }} />}
       {children}
     </div>
   );

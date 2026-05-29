@@ -12,9 +12,12 @@ import { ProductInfo } from "./Home/ProductInfo";
 import { Location } from "./Home/Location";
 import { Service } from "../generated/prisma/client";
 import { useReservation } from "../context/reservation-context";
+import { RitualsModal } from "./Rituals/rituals-modal";
 
 export function Home() {
-  const reservation = useReservation()
+  const reservation = useReservation();
+  const [servicesModal, setServicesModal] = useState(false);
+  const [infoServiceSelection, setInfoServicesSelection] = useState<Service | null>(null);
   const [bookingRitual, setBookingRitual] = useState<Service | null>(null);
   const [showToast, toastNode] = useToast();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -23,6 +26,11 @@ export function Home() {
     setBookingRitual(ritual ?? null);
     reservation.setBookingOpen(true);
   };
+
+  const openServicesInfoModal = (ritual: Service) => {
+    setInfoServicesSelection(ritual);
+    setServicesModal(true);
+  }
 
   const onConfirm = (ritual: Service | undefined) => {
     if(!!ritual){
@@ -43,7 +51,7 @@ export function Home() {
         <Strip />
         <Nav onBook={() => open()} onNavigate={scrollTo} />
         <Hero />
-        <Rituals open={open}/>
+        <Rituals open={openServicesInfoModal} />
         <ProductInfo />
         <Location />
         <Footer />
@@ -54,6 +62,11 @@ export function Home() {
         initialRitual={bookingRitual}
         onClose={() => reservation.setBookingOpen(false)}
         onConfirm={onConfirm}
+      />
+      <RitualsModal 
+        open={servicesModal}
+        onClose={() => setServicesModal(false)}
+        service={infoServiceSelection}
       />
 
       {toastNode}
