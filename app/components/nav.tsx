@@ -11,16 +11,15 @@ const LINKS: Array<[string, string]> = [
   ["Rituales", "rituales"],
   ["Filosofía", "filosofia"],
   ["Visítanos", "visitanos"],
-  ["Regalo", "regalo"],
 ];
 
 export function Nav({ onBook, onNavigate }: NavProps) {
   return (
     <div className="lnav">
-      <Logo size={20} />
+      <Logo size={80} />
       <div className="lnav-links">
         {LINKS.map(([label, id]) => (
-          <a key={id} onClick={() => onNavigate?.(id)}>
+          <a style={{fontSize: '1.25rem'}} key={id} onClick={() => onNavigate?.(id)}>
             {label}
           </a>
         ))}

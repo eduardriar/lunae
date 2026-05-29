@@ -62,7 +62,7 @@ export const Hero = ({ }: HeroSplitProps) => {
                 tone="dark"
                 imageUrl={'https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779486468/13_mrxetx.png'}
                 alt="Imagen de masaje relajante"
-                style={{ width: "30%", minHeight: 720, position: "relative" }}
+                style={{ width: "100%", minHeight: 720, position: "relative" }}
             >
                 <div
                     style={{
