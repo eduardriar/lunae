@@ -1,23 +1,28 @@
-import Image from "next/image";
-
 type LogoProps = {
   size?: number;
   color?: string;
 };
 
 const LOGO_RATIO = 460 / 200;
-const LOGO_SRC = "/assets/Logo- Web.svg";
 
-export function Logo({ size = 20 }: LogoProps) {
+export function Logo({ size = 20, color }: LogoProps) {
   return (
-    <Image
-      src={LOGO_SRC}
-      alt="Lunae"
-      width={Math.round(size * LOGO_RATIO)}
-      height={size}
-      priority
-      unoptimized
-      style={{ display: "block" }}
-    />
-  );
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+      viewBox="0 0 460 110" style={{height: size, width: Math.round(size * LOGO_RATIO), color, display: "block"}} aria-label="Lunae">
+      <text transform="matrix(1 0 0 1 111.582 83.5898)" style={{fill: "currentColor", fontFamily:"CinzelDecorative-Regular", fontSize:"105.2097px"}}>Lunae</text>
+      <g fill="currentColor">
+        <path d="M28.98,48.74c0-21.22,17.05-38.46,38.2-38.76c-3.24-0.77-6.62-1.18-10.1-1.18c-24.06,0-43.57,19.51-43.57,43.57
+	s19.51,43.57,43.57,43.57c13.66,0,25.84-6.29,33.83-16.12c-6.46,4.83-14.49,7.69-23.18,7.69C46.34,87.51,28.98,70.15,28.98,48.74z"
+        />
+        <path d="M105.4,56.09c-0.04,0.58-0.13,1.71-0.36,3.1c-3.74,22.19-29.32,43.54-51.7,39.55c-6.2-1.11-12.89-2.72-20.26-2.2
+	c-9.01,0.64-15.86,4.5-20.56,8.48c3.97-2.43,10.48-5.29,20.06-5.49c11.26-0.23,12.67,2.3,22.05,3.69
+	c20.54,3.06,47.33-15.83,50.46-36.57C105.63,63.07,105.72,59.53,105.4,56.09z"/>
+      </g>
+      <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="24.3351" y1="91.7795" x2="24.3351" y2="91.7795">
+        <stop offset="0.177" style={{stopColor: "#9F92C6"}} />
+        <stop offset="0.5973" style={{stopColor: "#B4DFEA"}} />
+      </linearGradient>
+      <path style={{fill: "currentColor"}} d="M24.34,91.78" />
+    </svg>
+  )
 }
