@@ -6,8 +6,8 @@ export const Location = () => {
     return (
         <section
             data-section="visitanos"
+            className="location__section"
             style={{
-                padding: "110px 64px",
                 display: "grid",
                 gridTemplateColumns: "1fr",
                 gap: 24,
@@ -16,6 +16,7 @@ export const Location = () => {
             }}
         >
             <div
+                className="location-map__container"
                 style={{
                     background: "var(--negro)",
                     color: "var(--blanco)",
@@ -23,10 +24,11 @@ export const Location = () => {
                     borderRadius: 6,
                 }}
             >
-                <Eyebrow color="var(--sage)" style={{ marginBottom: 18 }}>
+                <Eyebrow color="var(--sage)" style={{ marginBottom: 18 }} className="location__eyebrow">
                     {CONTENT.location.eyebrow}
                 </Eyebrow>
                 <h3
+                    className="location__title"
                     style={{
                         fontFamily: "var(--ff-display)",
                         fontWeight: 400,
@@ -39,7 +41,8 @@ export const Location = () => {
                 </h3>
                 <div
                     style={{
-                        width: '100%'
+                        width: '100%',
+                        border: '1px var(--negro) solid'
                     }}>
                     <Map />
                 </div>

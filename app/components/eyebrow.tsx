@@ -4,11 +4,13 @@ type EyebrowProps = {
   children: ReactNode;
   color?: string;
   style?: CSSProperties;
+  className?: string
 };
 
-export function Eyebrow({ children, color, style }: EyebrowProps) {
+export function Eyebrow({ children, color, style, className }: EyebrowProps) {
   return (
     <div
+      className={className}
       style={{
         fontFamily: "var(--ff-mono)",
         fontSize: 10,

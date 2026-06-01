@@ -10,6 +10,7 @@ type PlaceholderProps = {
   children?: ReactNode;
   style?: CSSProperties;
   alt?: string;
+  className?: string;
 };
 
 const TONE_CLASS: Record<Tone, string> = {
@@ -20,10 +21,13 @@ const TONE_CLASS: Record<Tone, string> = {
   deep: "ph ph-deep",
 };
 
-export function Placeholder({ label, tone = "crema", imageUrl, children, style, alt }: PlaceholderProps) {
+export function Placeholder({ label, tone = "crema", imageUrl, children, style, alt, className }: PlaceholderProps) {
+
+  const baseClass = imageUrl ? undefined : TONE_CLASS[tone];
+  const mergedClass = [baseClass, className].filter(Boolean).join(" ") || undefined;
 
   return (
-    <div className={imageUrl ? undefined : TONE_CLASS[tone]} style={style}>
+    <div className={mergedClass} style={style}>
       {!imageUrl && label ? <div className="ph-label">{label}</div> : null}
       {imageUrl && alt && <Image src={imageUrl} alt={alt} height={0}
         width={1500}
