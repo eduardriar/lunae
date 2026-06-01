@@ -51,7 +51,7 @@ export const CONTENT = {
             "Próximos días disponibles"
         ],
         time: [
-            "⏰ Elige la hora para tu reserva el día [DATE]\n\nLas horas disponibles te permiten conectar en el momento que mejor se alinea con tu energía para el día [DAY].\n\n",
+            "⏰ Elige la hora para tu reserva el día [DATE]\n\nLas horas disponibles te permiten conectar en el momento que mejor se alinea con tu energía para el día seleccionado.\n\n",
             "Elige tu horario",
             "Horarios disponibles"
         ],
