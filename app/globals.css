@@ -469,6 +469,10 @@ html {
   color: var(--blanco);
 }
 
+.hero-split__placeholder {
+  width: 50%
+}
+
 /* Product info — two-column philosophy block */
 .product-info {
   background: var(--crema);
@@ -565,6 +569,10 @@ html {
 
   .hero-split__quote {
     font-size: 1.75rem;
+  }
+
+  .hero-split__placeholder {
+    width: 100%
   }
 
   .product-info {

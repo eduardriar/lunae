@@ -8,6 +8,7 @@ export type TemplateVars = {
   PRICE?: string | number;
   PHONE?: string;
   EMAIL?: string;
+  SERVICE?: string;
 };
 
 const PLACEHOLDER_RE = /\[([A-Z_0-9]+)\]/g;
