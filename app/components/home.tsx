@@ -68,7 +68,6 @@ export function Home() {
         onClose={() => setServicesModal(false)}
         service={infoServiceSelection}
       />
-
       {toastNode}
     </>
   );

@@ -14,12 +14,15 @@ type RitualsProps = {
         additionalPrice: number;
         description: string[];
         state: boolean;
+        order: number;
         imageUrl: string | null;
     }) => void
 }
 
 export const Rituals = ({ open }: RitualsProps) => {
     const { services } = useServices();
+
+    console.log(services)
 
     return (
         <section data-section="rituales" style={{ padding: "90px 64px" }}>
@@ -34,7 +37,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                 }}
             >
                 <div>
-                    <Eyebrow style={{ marginBottom: 12 }}>Carta de rituales</Eyebrow>
+                    <Eyebrow style={{ marginBottom: 12 }}>Selecciona tu servicio</Eyebrow>
                     <h2
                         style={{
                             fontFamily: "var(--ff-display)",
@@ -84,7 +87,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             <h3
                                 style={{
                                     fontFamily: "var(--ff-display)",
-                                    fontSize: 26,
+                                    fontSize: 28,
                                     fontWeight: 400,
                                     margin: "0 0 6px",
                                     color: "var(--negro)",
@@ -95,13 +98,13 @@ export const Rituals = ({ open }: RitualsProps) => {
                             <div
                                 style={{
                                     fontFamily: "var(--ff-mono)",
-                                    fontSize: 10,
+                                    fontSize: 14,
                                     letterSpacing: "0.16em",
                                     color: "var(--ink-mute)",
                                     textTransform: "uppercase",
                                 }}
                             >
-                                {r.duration} · {formatCurrency(r.price)}
+                                {r.duration} minutos · {formatCurrency(r.price)}
                             </div>
                         </div>
                     </button>
