@@ -254,7 +254,7 @@ const sendServiceList = async (conversation: WhatsappConversation) => {
     try {
       await sendImageMessage(
         conversation.contactPhone,
-        service.imageUrl
+        service.imageUrl[0]
       );
     } catch (error) {
       console.warn('Failed to send service preview image:', service.id, error);

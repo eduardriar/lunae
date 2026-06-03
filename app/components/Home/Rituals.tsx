@@ -15,7 +15,7 @@ type RitualsProps = {
         description: string[];
         state: boolean;
         order: number;
-        imageUrl: string | null;
+        imageUrl: string[];
     }) => void
 }
 
@@ -82,7 +82,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             textAlign: "left",
                         }}
                     >
-                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl} alt={r.name} />
+                        <Placeholder style={{ height: 320 }} label={r.name.toLowerCase()} imageUrl={r.imageUrl[0]} alt={r.name} />
                         <div style={{ padding: "1rem" }}>
                             <h3
                                 style={{
