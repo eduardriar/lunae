@@ -13,7 +13,7 @@ export function Eyebrow({ children, color, style, className }: EyebrowProps) {
       className={className}
       style={{
         fontFamily: "var(--ff-mono)",
-        fontSize: 10,
+        fontSize: 14,
         letterSpacing: "0.22em",
         textTransform: "uppercase",
         color: color ?? "var(--cafe)",

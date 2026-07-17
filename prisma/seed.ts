@@ -26,6 +26,8 @@ const services: Prisma.ServiceCreateInput[] = [
         "duration": 60,
         "price": 170000,
         "additionalPrice": 80000,
+        "order": 1,
+        "imageUrl": ["https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779484780/6_zelmvh.png"],
         "description": ["Tu experiencia inicia con aromaterapia y música relajante, creando un ambiente íntimo para el descanso. El masaje se realiza con movimientos relajantes guiados por una terapeuta profesional.", "Durante la sesión, la masajista permanece con bata y lencería, manteniendo un entorno respetuoso. El cliente debe permanecer relajado y evitar tocar a la terapeuta para preservar la calidad de la experiencia." ]
     },
     {
@@ -33,6 +35,8 @@ const services: Prisma.ServiceCreateInput[] = [
         "duration": 60,
         "price": 250000,
         "additionalPrice": 110000,
+        "order": 2,
+        "imageUrl": ["https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779484780/6_zelmvh.png"],
         "description": [
             "Vive una experiencia de relajación profunda y conexión interior a través de un masaje relajante inspirado en la tradición tántrica. Sumérgete en un masaje acompañado de aromaterapia, piedras volcanicas, música suave y un ambiente diseñado para despertar tus sentidos.",
             "Un ritual cuerpo a cuerpo guiado por una terapeuta profesional que permanece en lenceria, con caricias sensuales que van de lo suave a lo apasionado, estimulación manual."
@@ -43,6 +47,8 @@ const services: Prisma.ServiceCreateInput[] = [
         "duration": 60,
         "price": 250000,
         "additionalPrice": 110000,
+        "order": 3,
+        "imageUrl": ["https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779484780/6_zelmvh.png"],
         "description": [
             "Una experiencia sensorial diseñada para despertar la energía del cuerpo y vivir un ritual de sanación íntima en un ambiente exclusivo.",
             "Disfruta de un masaje relajante diseñado para despertar tus sentidos y liberar tensiones. La sesión incluye toque consciente, aromaterapias, piedras volcánicas y masaje cuerpo a cuerpo para una experiencia profunda de conexión y bienestar.",
@@ -54,6 +60,8 @@ const services: Prisma.ServiceCreateInput[] = [
         "duration": 90,
         "price": 680000,
         "additionalPrice": 0,
+        "order": 4,
+        "imageUrl": ["https://res.cloudinary.com/dz9wfl3bv/image/upload/q_auto/f_auto/v1779484780/9_skmhdu.png"],
         "description": [
             "Regálense un momento único de conexión, relajación y energía compartida.",
             "Nuestro masaje tántrico en pareja está diseñado para despertar los sentidos, armonizar el cuerpo y fortalecer el vínculo entre ambos en un ambiente íntimo y respetuoso.",
@@ -82,32 +90,7 @@ const users: Prisma.UserCreateInput[] = [
         name: "Camila Rincón",
         email: "camila.admin@lunae.co",
         userType: { connect: { name: "admin" } },
-    },
-    {
-        name: "Daniela Patiño",
-        email: "daniela.recepcion@lunae.co",
-        userType: { connect: { name: "recepcionist" } },
-    },
-    {
-        name: "María José Álvarez",
-        email: "mariajose.therapist@lunae.co",
-        userType: { connect: { name: "therapist" } },
-    },
-    {
-        name: "Valentina Ríos",
-        email: "valentina.therapist@lunae.co",
-        userType: { connect: { name: "therapist" } },
-    },
-    {
-        name: "Sofía Mendoza",
-        email: "sofia.therapist@lunae.co",
-        userType: { connect: { name: "therapist" } },
-    },
-    {
-        name: "Isabella Torres",
-        email: "isabella.therapist@lunae.co",
-        userType: { connect: { name: "therapist" } },
-    },
+    }
 ]
 
 async function seedService() {
@@ -153,4 +136,4 @@ export async function main(seedType?: SEED_TYPE){
     } 
 }
 
-main(SEED_TYPE.User);
+main(SEED_TYPE.Service);

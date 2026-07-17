@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import prisma from '@/app/lib/prisma';
 import { sendTextMessage, WhatsappError } from '@/app/lib/whatsapp';
 import { NextRequest, NextResponse } from 'next/server';
@@ -8,9 +9,32 @@ type SendBody = {
   reservationId?: string;
 };
 
+// Constant-time bearer-token check against INTERNAL_API_KEY.
+// Fails closed when the env var is unset so a misconfigured deploy can't
+// accept anonymous sends.
+const isAuthorized = (req: NextRequest): boolean => {
+  const expected = process.env.INTERNAL_API_KEY;
+  if (!expected) return false;
+
+  const header = req.headers.get('authorization');
+  console.log(header)
+  if (!header?.startsWith('Bearer ')) return false;
+  const provided = header.slice('Bearer '.length);
+
+  const expectedBuf = Buffer.from(expected);
+  const providedBuf = Buffer.from(provided);
+  if (expectedBuf.length !== providedBuf.length) return false;
+  return crypto.timingSafeEqual(expectedBuf, providedBuf);
+};
+
 export async function POST(req: NextRequest) {
-  console.log('>>>', req);
-  
+  if (!isAuthorized(req)) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
   try {
     const { to, body, reservationId } = (await req.json()) as Partial<SendBody>;
 

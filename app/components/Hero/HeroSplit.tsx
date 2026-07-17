@@ -5,7 +5,7 @@ import { HERO } from "@/app/utils/copies";
 import { ReserevationCard } from "./ReservationCard";
 
 type HeroSplitProps = {
-    
+
 }
 
 export const Hero = ({ }: HeroSplitProps) => {

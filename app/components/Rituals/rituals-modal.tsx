@@ -28,7 +28,7 @@ export const RitualsModal = ({ open, onClose, service }: RitualsModalProps) => {
             <div style={{ padding: "1rem" }}>
                 {!!service && (
                     <>
-                        <Placeholder style={{ padding: '3rem 0 1rem 0', width: "100%", minHeight: "560px", borderRadius: 4 }} imageUrl={service.imageUrl} alt={service.name} />
+                        <Placeholder style={{ padding: '3rem 0 1rem 0', width: "100%", minHeight: "560px", borderRadius: 4 }} imageUrl={service.imageUrl[0]} alt={service.name} />
                         <div style={{
                             display: "flex",
                             flexDirection: "row",

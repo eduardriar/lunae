@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="lfooter">
       <div className="lfooter-grid">
         <div>
-          <Logo size={56} color="var(--blanco)" />
+          <Logo size={72} color="var(--blanco)" />
           <p
             style={{
               fontFamily: "var(--ff-display)",
