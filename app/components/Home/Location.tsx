@@ -1,4 +1,4 @@
-import { CONTENT } from "@/app/lib/content/content"
+import { CONTENT } from "@/app/utils/copies"
 import { Eyebrow } from "../eyebrow"
 import { Map } from "./Map"
 

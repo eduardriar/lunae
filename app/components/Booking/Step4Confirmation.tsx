@@ -4,7 +4,7 @@ import { Service, User, UserType } from "@/app/generated/prisma/client";
 import { formatCurrency } from "@/app/utils/currency";
 import { headlineStyle, subStyle } from "./styles";
 import { WorkDay } from "@/app/utils/workDays";
-import { ADDRESS } from "@/app/lib/content/content";
+import { ADDRESS, BOOKING_STEP4 } from "@/app/utils/copies";
 import { TermsAndConditions } from "../shared/TermsAndConditions";
 
 type Step4ConfirmationProps = {
@@ -27,11 +27,13 @@ export function Step4Confirmation({
   onTermsChange,
 }: Step4ConfirmationProps) {
   const rows = [
-    ["Ritual", `${ritual.name} · ${ritual.duration} minutos`],
-    ["Fecha & hora", `${!!day && day.iso} May · ${time}`],
-    ["Lugar", ADDRESS],
-    ["Total", formatCurrency(ritual.price)],
+    [BOOKING_STEP4.rowRitual, `${ritual.name} · ${ritual.duration} ${BOOKING_STEP4.minutes}`],
+    [BOOKING_STEP4.rowDate, day ? `${day.dayNumber} ${day.month} · ${time}` : time],
+    [BOOKING_STEP4.rowPlace, ADDRESS],
+    [BOOKING_STEP4.rowTotal, formatCurrency(ritual.price)],
   ] as const;
+
+  console.log(day)
 
   return (
     <div>
@@ -50,10 +52,10 @@ export function Step4Confirmation({
         />
       </div>
       <h2 style={{ ...headlineStyle, fontSize: 56, textAlign: "center" }}>
-        <em style={{ color: "var(--cafe)" }}>Reservado.</em>
+        {BOOKING_STEP4.title}
       </h2>
       <p style={{ ...subStyle, textAlign: "center" }}>
-        {name ? `Gracias, ${name.split(" ")[0]}. ` : ""}Te enviamos la confirmación por WhatsApp.
+        {BOOKING_STEP4.subtitle(name ? name.split(" ")[0] : "")}
       </p>
 
       <div
@@ -74,7 +76,7 @@ export function Step4Confirmation({
             marginBottom: 12,
           }}
         >
-          Tu reserva · #{reservationId}
+          {BOOKING_STEP4.reservationLabel(reservationId)}
         </div>
         {rows.map(([k, v], i, arr) => (
           <div
@@ -128,7 +130,7 @@ export function Step4Confirmation({
           style={{ marginTop: 3, accentColor: "var(--cafe)", cursor: "pointer" }}
         />
         <span>
-          He leído y acepto los{" "}
+          {BOOKING_STEP4.termsPrefix}
         </span>
         <TermsAndConditions style={{ color: "var(--cafe)" }} />
         .

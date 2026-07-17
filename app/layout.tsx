@@ -4,6 +4,7 @@ import "./globals.css";
 import { ServicesProvider } from "./context/services-context";
 import { UsersProvider } from "./context/users-context";
 import { ReservationProvider } from "./context/reservation-context";
+import { METADATA } from "./utils/copies";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -28,9 +29,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lunae · Spa tántrico de bienestar",
-  description:
-    "Un espacio para reencontrarte, bajo la calma de la luna. Rituales tántricos profesionales en Bogotá.",
+  title: METADATA.title,
+  description: METADATA.description,
 };
 
 export default function RootLayout({
