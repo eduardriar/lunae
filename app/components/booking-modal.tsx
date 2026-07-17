@@ -9,6 +9,7 @@ import { Service, User, UserType } from "../generated/prisma/client";
 import { useServices } from "../context/services-context";
 import { useReservation, TOTAL_STEPS } from "../context/reservation-context";
 import { SideModal } from "./SideModal/side-modal";
+import { BOOKING_MODAL } from "../utils/copies";
 
 export type Therapist = User & { userType: UserType };
 
@@ -42,7 +43,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
   };
 
   return (
-    <SideModal open={open} onClose={onClose} ariaLabel="Reserva tu ritual">
+    <SideModal open={open} onClose={onClose} ariaLabel={BOOKING_MODAL.ariaLabel}>
       <div
         style={{
           padding: "22px 36px",
@@ -60,7 +61,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
             color: "var(--cafe)",
           }}
         >
-          Reserva · paso {reservation.step} de {TOTAL_STEPS}
+          {BOOKING_MODAL.stepIndicator(reservation.step, TOTAL_STEPS)}
         </div>
       </div>
 
@@ -146,7 +147,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
             cursor: "pointer",
           }}
         >
-          ← {reservation.step === 1 ? "Cancelar" : "Atrás"}
+          ← {reservation.step === 1 ? BOOKING_MODAL.cancel : BOOKING_MODAL.back}
         </button>
         {reservation.step < TOTAL_STEPS ? (
           <button
@@ -161,7 +162,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               cursor: reservation.canContinue() ? "pointer" : "not-allowed",
             }}
           >
-            Continuar →
+            {BOOKING_MODAL.next}
           </button>
         ) : (
           <button
@@ -176,7 +177,7 @@ export function BookingModal({ open, initialRitual, onClose, onConfirm }: Bookin
               cursor: reservation.termsAccepted ? "pointer" : "not-allowed",
             }}
           >
-            Confirmar
+            {BOOKING_MODAL.confirm}
           </button>
         )}
       </div>

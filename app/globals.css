@@ -111,6 +111,15 @@ button {
   background: #000;
 }
 
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary:disabled:hover {
+  background: var(--negro);
+}
+
 .btn-secondary {
   background: transparent;
   color: var(--negro);

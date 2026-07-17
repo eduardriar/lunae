@@ -14,6 +14,7 @@ import { Service } from "../generated/prisma/client";
 import { WorkDay } from "../utils/workDays";
 import { useCreateReservation } from "../hooks/useCreateReservation";
 import type { Step3Errors } from "../components/Booking/Step3Contact";
+import { BOOKING_STEP3 } from "../utils/copies";
 
 export const TOTAL_STEPS = 4;
 
@@ -59,7 +60,7 @@ const ReservationContext = createContext<ReservationContextValue | undefined>(
   undefined
 );
 
-const DEFAULT_PREFS = new Set(["Aromaterapia suave"]);
+const DEFAULT_PREFS = new Set([BOOKING_STEP3.prefs[0]]);
 
 export function ReservationProvider({ children }: { children: ReactNode }) {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -95,9 +96,9 @@ export function ReservationProvider({ children }: { children: ReactNode }) {
 
   const validateContact = useCallback(() => {
     const e: Step3Errors = {};
-    if (!name.trim() || name.trim().length < 2) e.name = "Necesitamos tu nombre";
+    if (!name.trim() || name.trim().length < 2) e.name = BOOKING_STEP3.errors.name;
     if (!phone.trim() || phone.replace(/\D/g, "").length < 7)
-      e.phone = "WhatsApp con código de país";
+      e.phone = BOOKING_STEP3.errors.phone;
     setErrors(e);
     return Object.keys(e).length === 0;
   }, [name, phone]);

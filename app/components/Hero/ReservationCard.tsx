@@ -3,25 +3,25 @@ import { useReservation } from "@/app/context/reservation-context";
 import { Eyebrow } from "../eyebrow";
 import { useServices } from "@/app/context/services-context";
 import { useCalendarAvailability } from "@/app/hooks/useCalendarAvailability";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Loading } from "../Loading/Loading";
 import { formatCurrency } from "@/app/utils/currency";
+import { RESERVATION_CARD } from "@/app/utils/copies";
+import { getUpcomingWorkDays } from "@/app/utils/workDays";
 
 export const ReserevationCard = () => {
     const reservation = useReservation();
     const { services, loading, error } = useServices();
     const { availability, loading: calendarLoading, error: calendarError, fetchCalendarAvailability } = useCalendarAvailability();
+    const days = useMemo(() => getUpcomingWorkDays(1), []);
+    const today = new Date();
 
     useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        fetchCalendarAvailability(today)
+        fetchCalendarAvailability(today.toISOString().split('T')[0])
     }, []);
 
-    useEffect(() => {
-        console.log(reservation)
-    }, [reservation]);
-
     const onContinue = () => {
+        reservation.setDay(days[0])
         reservation.setStep(3);
         reservation.setBookingOpen(true);
     }
@@ -39,7 +39,7 @@ export const ReserevationCard = () => {
                         marginBottom: 20,
                     }}
                 >
-                    <Eyebrow>Agenda rápida</Eyebrow>
+                    <Eyebrow>{RESERVATION_CARD.eyebrow}</Eyebrow>
                     <span
                         style={{
                             fontFamily: "var(--ff-mono)",
@@ -56,7 +56,7 @@ export const ReserevationCard = () => {
                             aria-hidden
                             style={{ width: 6, height: 6, background: "var(--sage-deep)", borderRadius: "50%" }}
                         />{" "}
-                        disponible
+                        {RESERVATION_CARD.available}
                     </span>
                 </div>
 
@@ -64,7 +64,7 @@ export const ReserevationCard = () => {
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                         <span style={stepBadgeStyle}>1</span>
                         <span style={{ fontFamily: "var(--ff-body)", fontSize: 13, color: "var(--negro)" }}>
-                            Elige tu ritual
+                            {RESERVATION_CARD.step1}
                         </span>
                     </div>
                     <select
@@ -95,11 +95,11 @@ export const ReserevationCard = () => {
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                         <span style={stepBadgeStyle}>2</span>
                         <span style={{ fontFamily: "var(--ff-body)", fontSize: 13, color: "var(--negro)" }}>
-                            Selecciona un horario
+                            {RESERVATION_CARD.step2}
                         </span>
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-                        {availability && availability.map((t, i) => {
+                        {availability && availability.map((t) => {
                             const isBlocked = t.blocked;
                             const sel = reservation.time === t.displayTime && !isBlocked;
                             return (
@@ -131,10 +131,11 @@ export const ReserevationCard = () => {
                 <button
                     type="button"
                     onClick={onContinue}
+                    disabled={!reservation.time}
                     className="btn btn-primary"
                     style={{ width: "100%", padding: 16 }}
                 >
-                    Continuar →
+                    {RESERVATION_CARD.cta}
                 </button>
             </>
         )

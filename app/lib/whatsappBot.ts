@@ -15,7 +15,7 @@ import {
   WhatsappConversationState,
 } from '../generated/prisma/client';
 import { InputJsonValue } from '@prisma/client/runtime/client';
-import { CONTENT } from './content/content';
+import { CONTENT } from '../utils/copies';
 import { fillTemplate } from './content/template';
 
 export type InboundMessage = {

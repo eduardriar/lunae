@@ -5,6 +5,7 @@ import { Placeholder } from "../placeholder";
 import { headlineStyle, subStyle } from "./styles";
 import { Service } from "@/app/generated/prisma/client";
 import { formatCurrency } from "@/app/utils/currency";
+import { BOOKING_STEP1 } from "@/app/utils/copies";
 
 type Step1RitualProps = {
   ritual: Service;
@@ -16,10 +17,8 @@ export function Step1Ritual({ ritual, setRitual }: Step1RitualProps) {
 
   return (
     <div>
-      <h2 style={headlineStyle}>
-        Elige tu <em style={{ color: "var(--cafe)" }}>ritual.</em>
-      </h2>
-      <p style={subStyle}>Cuatro caminos. Una sola intención.</p>
+      <h2 style={headlineStyle}>{BOOKING_STEP1.title}</h2>
+      <p style={subStyle}>{BOOKING_STEP1.subtitle}</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {services.map((service) => {
           const selected = ritual ? ritual.name === service.name : false;
@@ -63,7 +62,7 @@ export function Step1Ritual({ ritual, setRitual }: Step1RitualProps) {
                     marginTop: 4,
                   }}
                 >
-                  {service.duration} minutos
+                  {service.duration} {BOOKING_STEP1.minutes}
                 </div>
               </div>
               <div

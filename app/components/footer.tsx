@@ -1,4 +1,4 @@
-import { CONTENT } from "../lib/content/content";
+import { CONTENT } from "../utils/copies";
 import { Logo } from "./logo";
 import { TermsAndConditions } from "./shared/TermsAndConditions";
 

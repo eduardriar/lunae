@@ -7,6 +7,7 @@ import { useEffect, useMemo } from "react";
 import { getUpcomingWorkDays, WorkDay } from "@/app/utils/workDays";
 import { Therapist } from "../booking-modal";
 import { Loading } from "../Loading/Loading";
+import { BOOKING_STEP2 } from "@/app/utils/copies";
 
 type Step2DateTimeProps = {
   ritual: Service;
@@ -18,7 +19,7 @@ type Step2DateTimeProps = {
 
 export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateTimeProps) {
   const { availability, loading, fetchCalendarAvailability } = useCalendarAvailability();
-  const days = useMemo(() => getUpcomingWorkDays(5), []);
+  const days = useMemo(() => getUpcomingWorkDays(7), []);
 
   useEffect(() => {
     if (day !== undefined) fetchCalendarAvailability(day)
@@ -64,15 +65,13 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
 
   return (
     <div>
-      <h2 style={headlineStyle}>
-        ¿Cuándo te <em style={{ color: "var(--cafe)" }}>recibimos?</em>
-      </h2>
+      <h2 style={headlineStyle}>{BOOKING_STEP2.title}</h2>
       <p style={subStyle}>
         {ritual.name} · {ritual.duration}
       </p>
 
       <div style={{ marginBottom: 24 }}>
-        <div style={fieldLabelStyle}>Día</div>
+        <div style={fieldLabelStyle}>{BOOKING_STEP2.dayLabel}</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6 }}>
           {days.map((d, i) => {
             const sel = !!day && day.iso === d.iso;
@@ -112,7 +111,7 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
                   }}
                 >
                   <span>{d.date.getDate()}</span>
-                  <span>{d.isToday ? 'Hoy' : d.weekday}</span>
+                  <span>{d.isToday ? BOOKING_STEP2.today : d.weekday}</span>
                 </div>
               </button>
             );
@@ -122,7 +121,7 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
 
       <div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        <div style={fieldLabelStyle}>Hora</div>
+        <div style={fieldLabelStyle}>{BOOKING_STEP2.hourLabel}</div>
         {displayTimeSlot()}
         <div
           style={{
@@ -132,7 +131,7 @@ export function Step2DateTime({ ritual, day, setDay, time, setTime }: Step2DateT
             color: "var(--ink-mute)",
           }}
         >
-          ✦ Última cita 8 pm · Lun–Sáb. Domingo cierra 7 pm.
+          {BOOKING_STEP2.scheduleNote}
         </div>
       </div>
     </div>

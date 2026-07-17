@@ -3,6 +3,7 @@ import { Eyebrow } from "../eyebrow"
 import { Placeholder } from "../placeholder"
 import { useServices } from "@/app/context/services-context";
 import { formatCurrency } from "@/app/utils/currency";
+import { RITUALS_SECTION } from "@/app/utils/copies";
 import { Dispatch, SetStateAction } from "react";
 
 type RitualsProps = {
@@ -37,7 +38,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                 }}
             >
                 <div>
-                    <Eyebrow style={{ marginBottom: 12 }}>Selecciona tu servicio</Eyebrow>
+                    <Eyebrow style={{ marginBottom: 12 }}>{RITUALS_SECTION.eyebrow}</Eyebrow>
                     <h2
                         style={{
                             fontFamily: "var(--ff-display)",
@@ -47,7 +48,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                             color: "var(--negro)",
                         }}
                     >
-                        Cuatro caminos, <em style={{ color: "var(--cafe)" }}>una luna.</em>
+                        {RITUALS_SECTION.title}
                     </h2>
                 </div>
             </div>
@@ -104,7 +105,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                                     textTransform: "uppercase",
                                 }}
                             >
-                                {r.duration} minutos · {formatCurrency(r.price)}
+                                {r.duration} {RITUALS_SECTION.minutes} · {formatCurrency(r.price)}
                             </div>
                         </div>
                     </button>
@@ -119,7 +120,7 @@ export const Rituals = ({ open }: RitualsProps) => {
                     textAlign: "right",
                 }}
             >
-                + adicionales por 30 min
+                {RITUALS_SECTION.additionalNote}
             </p>
         </section>
     )

@@ -1,8 +1,10 @@
+import { A11Y } from "@/app/utils/copies";
+
 export const Loading = () => {
     return (
         <div
             role="status"
-            aria-label="Cargando horarios"
+            aria-label={A11Y.loadingSchedules}
             style={{ display: "flex", justifyContent: "center", padding: "28px 0" }}
         >
             <div

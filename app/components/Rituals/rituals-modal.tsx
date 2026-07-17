@@ -3,6 +3,7 @@ import { SideModal } from "../SideModal/side-modal"
 import Image from "next/image";
 import { Placeholder } from "../placeholder";
 import { useReservation } from "@/app/context/reservation-context";
+import { RITUALS_MODAL } from "@/app/utils/copies";
 
 type RitualsModalProps = {
     open: boolean;
@@ -39,7 +40,7 @@ export const RitualsModal = ({ open, onClose, service }: RitualsModalProps) => {
                                 className="btn btn-primary"
                                 style={{ fontSize: 13, padding: "12px 24px" }}
                             >
-                                Agendar →
+                                {RITUALS_MODAL.cta}
                             </button>
                         </div>
 

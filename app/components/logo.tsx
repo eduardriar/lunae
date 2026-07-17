@@ -1,3 +1,5 @@
+import { A11Y } from "../utils/copies";
+
 type LogoProps = {
   size?: number;
   color?: string;
@@ -8,7 +10,7 @@ const LOGO_RATIO = 460 / 200;
 export function Logo({ size = 20, color }: LogoProps) {
   return (
     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-      viewBox="0 0 460 110" style={{height: size, width: Math.round(size * LOGO_RATIO), color, display: "block"}} aria-label="Lunae">
+      viewBox="0 0 460 110" style={{height: size, width: Math.round(size * LOGO_RATIO), color, display: "block"}} aria-label={A11Y.logo}>
       <text transform="matrix(1 0 0 1 111.582 83.5898)" style={{fill: "currentColor", fontFamily:"CinzelDecorative-Regular", fontSize:"105.2097px"}}>Lunae</text>
       <g fill="currentColor">
         <path d="M28.98,48.74c0-21.22,17.05-38.46,38.2-38.76c-3.24-0.77-6.62-1.18-10.1-1.18c-24.06,0-43.57,19.51-43.57,43.57

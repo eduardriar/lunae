@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import { A11Y } from "@/app/utils/copies";
 
 type SideModalProps = {
   open: boolean;
@@ -63,7 +64,7 @@ export function SideModal({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Cerrar"
+          aria-label={A11Y.closeModal}
           style={{
             position: "absolute",
             top: 22,

@@ -1,6 +1,6 @@
 import getCalendarClient from './googleCalendar';
 
-const BUSINESS_HOURS = { start: 9, end: 18 };
+const BUSINESS_HOURS = { start: 9, end: 19 };
 const SLOT_DURATION = 60;
 const SLOT_CAPACITY = 4;
 const TZ_OFFSET = '-05:00';

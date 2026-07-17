@@ -33,8 +33,7 @@ export function getUpcomingWorkDays(count: number = 5): WorkDay[] {
   const cursor = new Date(today);
 
   while (result.length < count) {
-    if (!isWeekend(cursor.getDay())) {
-      const iso = toIsoDate(cursor);
+    const iso = toIsoDate(cursor);
       result.push({
         date: new Date(cursor),
         iso,
@@ -43,7 +42,6 @@ export function getUpcomingWorkDays(count: number = 5): WorkDay[] {
         month: formatMonth(cursor),
         isToday: iso === todayIso,
       });
-    }
     cursor.setDate(cursor.getDate() + 1);
   }
 

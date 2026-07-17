@@ -14,8 +14,6 @@ export async function POST(request: NextRequest) {
     // Validar datos (aquí iría tu validación con Zod)
     const { name, email, phone, date, hour, notes, duration, service } = body;
 
-    console.log(phone)
-
     // 1. Save data
     const createdReservation = await prisma.reservation.create({
         data: {
@@ -44,6 +42,7 @@ export async function POST(request: NextRequest) {
           Servicio: ${service.name}
           Cliente: ${name}
           Precio: ${service.price}
+          Número de teléfono: ${phone}
         `,
       });
 

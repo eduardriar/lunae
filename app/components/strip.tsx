@@ -1,11 +1,13 @@
+import { STRIP_ITEMS } from "../utils/copies";
+
 export function Strip() {
   return (
     <div className="lstrip">
-      ✦ ambiente seguro
+      ✦ {STRIP_ITEMS[0]}
       <span className="dot">·</span>
-      terapeutas profesionales certificadas
+      {STRIP_ITEMS[1]}
       <span className="dot">·</span>
-      experiencia respetuosa
+      {STRIP_ITEMS[2]}
     </div>
   );
 }

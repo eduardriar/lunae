@@ -4,6 +4,7 @@ import { useUsers } from "@/app/context/users-context";
 import { User, UserType } from "@/app/generated/prisma/client";
 import { Placeholder } from "../placeholder";
 import { headlineStyle, subStyle } from "./styles";
+import { BOOKING_STEP_THERAPIST } from "@/app/utils/copies";
 
 type Therapist = User & { userType: UserType };
 
@@ -17,14 +18,12 @@ export function Step2Therapist({ therapist, setTherapist }: Step2TherapistProps)
 
   return (
     <div>
-      <h2 style={headlineStyle}>
-        Elige tu <em style={{ color: "var(--cafe)" }}>terapeuta.</em>
-      </h2>
-      <p style={subStyle}>Quien guiará tu ritual.</p>
+      <h2 style={headlineStyle}>{BOOKING_STEP_THERAPIST.title}</h2>
+      <p style={subStyle}>{BOOKING_STEP_THERAPIST.subtitle}</p>
 
       {loading && therapists.length === 0 ? (
         <p style={{ fontFamily: "var(--ff-body)", color: "var(--ink-mute)" }}>
-          Cargando terapeutas…
+          {BOOKING_STEP_THERAPIST.loading}
         </p>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -70,7 +69,7 @@ export function Step2Therapist({ therapist, setTherapist }: Step2TherapistProps)
                       marginTop: 4,
                     }}
                   >
-                    {t.specialties ?? "Terapeuta · Lunae"}
+                    {t.specialties ?? BOOKING_STEP_THERAPIST.specialtiesFallback}
                   </div>
                 </div>
                 <div

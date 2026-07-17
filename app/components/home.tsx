@@ -13,6 +13,7 @@ import { Location } from "./Home/Location";
 import { Service } from "../generated/prisma/client";
 import { useReservation } from "../context/reservation-context";
 import { RitualsModal } from "./Rituals/rituals-modal";
+import { TOAST } from "../utils/copies";
 
 export function Home() {
   const reservation = useReservation();
@@ -34,7 +35,7 @@ export function Home() {
 
   const onConfirm = (ritual: Service | undefined) => {
     if(!!ritual){
-      showToast(`Ritual reservado${ritual.name ? `, ${ritual.name.split(" ")[0]}` : ""}. Confirmamos por WhatsApp.`);
+      showToast(TOAST.reserved(ritual.name ? ritual.name.split(" ")[0] : undefined));
     }
   };
 

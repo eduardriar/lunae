@@ -2,8 +2,7 @@
 
 import { fieldLabelStyle, headlineStyle, subStyle } from "./styles";
 import { PhoneField } from "@/app/components/shared/PhoneField";
-
-const PREFS = ["Aromaterapia suave", "Música instrumental", "Sin conversación", "Té después"];
+import { BOOKING_STEP3 } from "@/app/utils/copies";
 
 export type Step3Errors = { name?: string; phone?: string; email?: string };
 
@@ -28,31 +27,29 @@ export function Step3Contact({
 }: Step3ContactProps) {
   return (
     <div>
-      <h2 style={headlineStyle}>
-        ¿Cómo te <em style={{ color: "var(--cafe)" }}>llamamos?</em>
-      </h2>
-      <p style={subStyle}>Confirmamos por WhatsApp en menos de una hora.</p>
+      <h2 style={headlineStyle}>{BOOKING_STEP3.title}</h2>
+      <p style={subStyle}>{BOOKING_STEP3.subtitle}</p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <Field
-          label="Nombre"
+          label={BOOKING_STEP3.nameLabel}
           value={name}
           onChange={setName}
-          placeholder="Como prefieras que te llamemos"
+          placeholder={BOOKING_STEP3.namePlaceholder}
           error={errors.name}
         />
         <PhoneField
-          label="WhatsApp"
+          label={BOOKING_STEP3.phoneLabel}
           value={phone}
           onChange={setPhone}
-          placeholder="300 000 0000"
+          placeholder={BOOKING_STEP3.phonePlaceholder}
           error={errors.phone}
         />
 
         <div style={{ marginTop: 8 }}>
-          <div style={{ ...fieldLabelStyle, marginBottom: 10 }}>Preferencias · opcional</div>
+          <div style={{ ...fieldLabelStyle, marginBottom: 10 }}>{BOOKING_STEP3.prefsLabel}</div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {PREFS.map((p) => {
+            {BOOKING_STEP3.prefs.map((p) => {
               const sel = prefs.has(p);
               return (
                 <button
