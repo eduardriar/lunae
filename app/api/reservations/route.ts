@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
           Servicio: ${service.name}
           Cliente: ${name}
           Precio: ${service.price}
+          Número de teléfono: ${phone}
         `,
       });
 

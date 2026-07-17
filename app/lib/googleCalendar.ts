@@ -27,8 +27,6 @@ const getAuth = () => {
     throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY not found');
   }
 
-  console.log('>>>', keyString)
-
   const keyJson = JSON.parse(keyString);
 
   return new google.auth.GoogleAuth({
