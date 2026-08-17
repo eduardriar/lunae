@@ -4,11 +4,18 @@ const Em = ({ children }: { children: ReactNode }) => (
     <em style={{ color: "var(--cafe)" }}>{children}</em>
 );
 
+export const ADDRESS = "Cra. 70D # 48 - 37";
+const SCHEDULE = "Lun-Dom · 11-19";
+const PHONE_NUMBER = "+57 300 1372490";
+const EMAIL = "contacto@lunae.spa";
+const NEIGHBOR = "Normandía, Bogotá";
+const EYEBROW = "Visítanos";
+
 export const HERO_SLOTS = ["Hoy 4pm", "Mañ 11am", "Mañ 2pm", "Vie 6pm"];
 export const HERO_OPTIONS: Array<{ name: string; label: string }> = [
-    { name: "Alquimia Lunae", label: "Alquimia Lunae · 60 min · $250.000" },
-    { name: "Ritual Lunae", label: "Ritual Lunae · 60 min · $170.000" },
-    { name: "Éxtasis Tántrico", label: "Éxtasis Tántrico · 60 min · $250.000" },
+    { name: "Alquimia Lunae", label: "Alquimia Lunae · 60 min · $300.000" },
+    { name: "Ritual Lunae", label: "Ritual Lunae · 60 min · $200.000" },
+    { name: "Éxtasis Tántrico", label: "Éxtasis Tántrico · 60 min · $300.000" },
     { name: "Armonía en Pareja", label: "Armonía en Pareja · 90 min · $680.000" },
 ];
 
@@ -147,7 +154,7 @@ export const BOOKING_STEP3 = {
     nameLabel: "Nombre",
     namePlaceholder: "Como prefieras que te llamemos",
     phoneLabel: "WhatsApp",
-    phonePlaceholder: "300 000 0000",
+    phonePlaceholder: PHONE_NUMBER,
     prefsLabel: "Preferencias · opcional",
     prefs: ["Aromaterapia suave", "Música instrumental", "Sin conversación", "Té después"],
     errors: {
@@ -185,19 +192,12 @@ export const A11Y = {
     logo: "Lunae",
 };
 
-export const ADDRESS = "Cra. 70D # 48 - 37";
-const SCHEDULE = "Lun-Dom · 11-19";
-const NUMBER = "+57 324 3425393";
-const EMAIL = "contacto@lunae.spa";
-const NEIGHBOR = "Normandía, Bogotá";
-const EYEBROW = "Visítanos";
-
 export const CONTENT = {
     name: "Lunae Spa",
     location: {
         eyebrow: EYEBROW,
         address: ADDRESS,
-        contactInfo: `${NUMBER} · ${EMAIL}`,
+        contactInfo: `${PHONE_NUMBER} · ${EMAIL}`,
         schedule: SCHEDULE
     },
     footer: {
@@ -215,7 +215,7 @@ export const CONTENT = {
             label: "Instagram"
         },
         whatsapp: {
-            account: NUMBER,
+            account: PHONE_NUMBER,
             label: "WhatsApp"
         },
         additional: "Carta Privada",
